@@ -134,27 +134,39 @@ The MediCart platform caters to several key user groups:
 
 #### User
 
--
+- As a new customer, I want to create an account so that I can purchase medical supplies.
 
--
+- As a registered user, I want to log in to my account to access my profile and orders.
 
--
+- As a registered user, I want to manage my profile information and preferences.
 
--
+- As a customer, I want to browse medical products by category so I can find what I need.
 
--
+- As a customer, I want to view detailed product information before purchasing.
+
+- As a customer, I want to manage items in my shopping cart.
+
+- As a customer, I want a smooth checkout process to complete my purchase.
+
+- As a customer, I want to view my past orders.
+
+- As a user, I want to receive notifications for authentication-related actions.
+
+- As a customer, I want to receive notifications for cart-related actions.
+
+- As a customer, I want to receive notifications during the checkout process.
+
+- As a user, I want to receive clear notifications when errors occur.
 
 #### Site owner
 
--
+- As an admin, I want to manage the product inventory.
 
--
+- As an admin, I want to manage and process orders.
 
--
+- As an admin, I want to manage user accounts.
 
--
-
--
+- As an admin, I want to receive notifications for product management actions.
 
 [Back to table of contents](#table-of-contents)
 
