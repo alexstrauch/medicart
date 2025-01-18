@@ -118,17 +118,15 @@ The MediCart platform caters to several key user groups:
 
 ### User expectations
 
-  - 
+  - User-friendly interface: Users expect a clean, intuitive, and easy-to-navigate interface that allows them to find products quickly, with clear categorization and search functionality.
 
-  - 
+  - Wide range of products: Users anticipate a comprehensive selection of healthcare products and medical supplies, covering everything from basic personal care items to specialized medical equipment.
 
-  - 
+  - Fast and secure checkout: Users expect a streamlined checkout process with multiple payment options, including secure transactions through Stripe, and minimal friction during the purchase.
 
-  - 
+  - Accurate product information: Users look for detailed and accurate product descriptions, including specifications, usage instructions, and reviews, to make informed purchasing decisions.
 
-  - 
-
-  - 
+  - Timely delivery and updates: Users expect prompt shipping with regular updates on the status of their orders, including estimated delivery times and tracking information.
 
 ### User stories
 
