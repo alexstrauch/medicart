@@ -106,29 +106,29 @@ The MediCart platform caters to several key user groups:
 
 ### User goals
 
--
+  - Convenient access to medical supplies: Users want a hassle-free experience to browse, compare, and purchase a wide range of healthcare products and medical supplies from a single platform without visiting multiple stores.
 
--
+  - Secure and seamless transactions: Ensuring that all financial transactions are secure, users aim to make payments quickly and safely through trusted payment gateways like Stripe.
 
--
+  - Efficient order management: Users expect an intuitive interface for tracking orders, managing returns, and accessing their purchase history to streamline their healthcare supply management.
 
--
+  - Customized user experience: Healthcare professionals and individual consumers seek tailored recommendations, relevant product categories, and personalized interfaces to meet their specific needs efficiently.
 
--
+  - Reliable customer support: Users look for accessible customer service to assist with inquiries, resolve issues promptly, and provide support throughout their shopping experience on the platform.
 
 ### User expectations
 
--
+  - 
 
--
+  - 
 
--
+  - 
 
--
+  - 
 
--
+  - 
 
--
+  - 
 
 ### User stories
 
