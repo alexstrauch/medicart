@@ -382,6 +382,8 @@ The MediCart platform caters to several key user groups:
 
 - CI Python linter for Python validation
 
+- PostgreSQL for the database
+
 - Heroku for deployment
 
 [Back to table of contents](#table-of-contents)
