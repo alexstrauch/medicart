@@ -342,11 +342,29 @@ The MediCart platform caters to several key user groups:
 
 ## Future features
 
--
+- Product reviews & comparison
 
--
+- Guest checkout
 
--
+- Save for later with wishlist
+
+- Order tracking
+
+- Delivery preferences
+
+- Sales analytics
+
+- Prescription management
+
+- Live chat support
+
+- Subscription service
+
+- Mobile app
+
+- AI product recommendations
+
+- Real-time search results
 
 [Back to table of contents](#table-of-contents)
 
