@@ -352,23 +352,37 @@ The MediCart platform caters to several key user groups:
 
 ## Languages
 
--
+- Python
+
+- HTML
+
+- CSS
+
+- JavaScript
 
 [Back to table of contents](#table-of-contents)
 
 ## Technologies
 
--
+- GitHub for the repository
 
--
+- GitPod
 
--
+- git for version control
 
--
+- Chrome Dev Tools
 
--
+- Balsamiq for the wireframes
 
--
+- W3C for HTML code validation
+
+- W3C for CSS code validation
+
+- JShint for JavaScript validation
+
+- CI Python linter for Python validation
+
+- Heroku for deployment
 
 [Back to table of contents](#table-of-contents)
 
