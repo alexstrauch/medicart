@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign in" %}{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="allauth-form-inner-content">
+                <h2 class="logo-font mb-4 text-center">{% trans "Sign in" %}</h2>
+
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Please correct the following errors:</strong>
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="text-muted text-center mb-4">{% blocktrans %}If you have not created an account yet, then please
+                    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    <div class="form-group w-75 mx-auto">
+                        <input type="email" name="login" class="form-control mb-3" placeholder="Email address" id="id_login" required>
+                        <input type="password" name="password" class="form-control mb-3" placeholder="Password" id="id_password" required>
+                        
+                        <div class="custom-checkbox mb-3">
+                            <input type="checkbox" name="remember" class="form-check-input" id="id_remember">
+                            <label class="form-check-label" for="id_remember">Remember me</label>
+                        </div>
+                    </div>
+
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <div class="text-center">
+                        <button class="btn btn-black rounded-0" type="submit">{% trans "Sign in" %}</button>
+                        <p class="mt-2">
+                            <a class="text-muted" href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

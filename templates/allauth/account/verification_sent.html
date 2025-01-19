@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify your email address" %}{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="allauth-form-inner-content">
+                <h2 class="logo-font mb-4 text-center">{% trans "Verify your email address" %}</h2>
+                
+                <p class="text-muted text-center">{% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}</p>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-black rounded-0">
+                        Return to home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
