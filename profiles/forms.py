@@ -10,10 +10,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user',)
-        fields = ['first_name', 'last_name', 'default_phone_number',
-                 'default_street_address1', 'default_street_address2',
-                 'default_town_or_city', 'default_county',
-                 'default_postcode', 'default_country']
 
     def __init__(self, *args, **kwargs):
         """
@@ -29,10 +25,12 @@ class UserProfileForm(forms.ModelForm):
             'default_town_or_city': 'Town or city',
             'default_street_address1': 'Street address',
             'default_street_address2': 'House number',
-            'default_county': 'County, state or locality',
+            'default_county': 'County, State or Locality',
         }
 
-        self.fields['first_name'].widget.attrs['autofocus'] = True
+        self.fields['default_country'].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+        self.fields['default_country'].label = 'Country'
+
         for field in self.fields:
             if field != 'default_country':
                 if self.fields[field].required:
@@ -40,8 +38,8 @@ class UserProfileForm(forms.ModelForm):
                 else:
                     placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
+                self.fields[field].label = False
             self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
-            self.fields[field].label = False
 
         if self.instance and self.instance.user:
             self.fields['first_name'].initial = self.instance.user.first_name
