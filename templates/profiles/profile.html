@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'profiles/js/profile.js' %}" defer></script>
+{% endblock %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="logo-font mb-4">My account</h2>
+                <hr>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-12 col-md-3">
+                <div class="list-group mb-4">
+                    <button class="list-group-item list-group-item-action active" data-section="profile-info">
+                        My profile
+                    </button>
+                    <button class="list-group-item list-group-item-action" data-section="update-profile">
+                        Update profile
+                    </button>
+                    <button class="list-group-item list-group-item-action" data-section="change-password">
+                        Change password
+                    </button>
+                    <button class="list-group-item list-group-item-action text-danger" data-section="delete-account">
+                        Delete account
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Right Content Area -->
+            <div class="col-12 col-md-9">
+                <!-- Profile Info Section -->
+                <div class="card mb-4 section-content" id="profile-info">
+                    <div class="card-header">
+                        <h5 class="mb-0">Profile information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
+                                <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
+                                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+                                <p><strong>Phone Number:</strong> {{ profile.default_phone_number|default:"Not provided" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Street Address:</strong> {{ profile.default_street_address1|default:"Not provided" }}</p>
+                                <p><strong>House Number:</strong> {{ profile.default_street_address2|default:"Not provided" }}</p>
+                                <p><strong>City:</strong> {{ profile.default_town_or_city|default:"Not provided" }}</p>
+                                <p><strong>Postal Code:</strong> {{ profile.default_postcode|default:"Not provided" }}</p>
+                                <p><strong>Country:</strong> {{ profile.default_country|default:"Not provided" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update profile section -->
+                <div class="card mb-4 section-content d-none" id="update-profile">
+                    <div class="card-header">
+                        <h5 class="mb-0">Update profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'profile' %}" method="POST" id="profile-update-form">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-primary">Update information</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Change password Section -->
+                <div class="card mb-4 section-content d-none" id="change-password">
+                    <div class="card-header">
+                        <h5 class="mb-0">Change password</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'profile' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="password_change" value="true">
+                            {{ password_form|crispy }}
+                            <button type="submit" class="btn btn-primary">Change password</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Delete account section -->
+                <div class="card mb-4 section-content d-none" id="delete-account">
+                    <div class="card-header">
+                        <h5 class="mb-0">Delete account</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-danger">
+                            <h5 class="alert-heading">Warning!</h5>
+                            <p>You are about to delete your account. This action cannot be undone!</p>
+                        </div>
+                        <form action="{% url 'delete_account' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-danger">Delete account</button>
+                                <button type="button" class="btn btn-secondary" data-section="profile-info">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
