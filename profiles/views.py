@@ -14,6 +14,7 @@ from checkout.models import Order
 def profile(request):
     """ Display the user's profile. """
     profile = get_object_or_404(UserProfile, user=request.user)
+    orders = profile.orders.all().order_by('-date')
 
     if request.method == 'POST':
         if 'password_change' in request.POST:
@@ -21,7 +22,7 @@ def profile(request):
             password_form = PasswordChangeForm(request.user, request.POST)
             if password_form.is_valid():
                 user = password_form.save()
-                update_session_auth_hash(request, user)  # Keep user logged in
+                update_session_auth_hash(request, user)
                 messages.success(request, 'Your password was successfully updated!')
                 return redirect('profile')
             else:
@@ -30,34 +31,29 @@ def profile(request):
             # Handle profile update
             form = UserProfileForm(request.POST, instance=profile)
             if form.is_valid():
-                # Update UserProfile fields
-                profile = form.save()
+                form.save()
                 
-                # Update User fields
+                # Update User model fields
                 user = request.user
-                user.first_name = form.cleaned_data['first_name']
-                user.last_name = form.cleaned_data['last_name']
+                user.first_name = form.cleaned_data.get('first_name', '')
+                user.last_name = form.cleaned_data.get('last_name', '')
                 user.save()
                 
                 messages.success(request, 'Profile updated successfully')
+                return redirect('profile')
             else:
                 messages.error(request, 'Update failed. Please ensure the form is valid.')
     else:
-        # Pre-populate the form with existing user data
-        initial_data = {
+        form = UserProfileForm(instance=profile, initial={
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
-        }
-        form = UserProfileForm(instance=profile, initial=initial_data)
+        })
         password_form = PasswordChangeForm(request.user)
-    
-    orders = profile.orders.all().order_by('-date')
 
     template = 'profiles/profile.html'
     context = {
         'form': form,
         'password_form': password_form,
-        'profile': profile,
         'orders': orders,
         'on_profile_page': True
     }
