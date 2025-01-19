@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .landing-content {
+        min-height: calc(100vh - 450px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        margin-top: -76px;
+        padding-top: 76px;
+    }
+
+    .display-4 {
+        margin-bottom: 0.75rem;
+        font-size: 2.5rem;
+    }
+
+    .lead {
+        margin-bottom: 1.25rem;
+        font-size: 1.1rem;
+    }
+
+    .slogan-text {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+
+    .shop-now-button {
+        padding: 0.5rem 2rem !important;
+    }
+
+    /* Desktop/tablet styles */
+    .slogan-part-2 {
+        display: inline;
+    }
+
+    @media (max-width: 991px) {
+        .landing-content {
+            min-height: calc(100vh - 440px);
+            margin-top: -60px;
+            padding-top: 80px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .display-4 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .lead {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .slogan-text {
+            margin-top: 0.75rem;
+            line-height: 1.4;
+            display: block;
+        }
+
+        /* Mobile styles */
+        .slogan-part-2 {
+            display: block;
+            margin-top: 0.75rem;
+        }
+
+        .shop-now-button {
+            padding: 0.85rem 2.75rem !important;
+            margin-top: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="landing-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 logo-font text-black">
+                        Welcome to MediCart
+                    </h1>
+                    <p class="lead slogan">
+                        Your trusted partner in healthcare excellence
+                        <span class="d-block slogan-text">
+                            Quality medical supplies,<span class="slogan-part-2"> delivered with care</span>
+                        </span>
+                    </p>
+                    <div class="mt-4">
+                        <a href="{% url 'products' %}" class="shop-now-button btn btn-lg rounded-0 text-uppercase">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
