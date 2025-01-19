@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart_tools %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container mb-2">
+        <div class="row">
+            <div class="col">
+                <h1 class="logo-font mb-4">Shopping cart</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% if cart_items %}
+                    <div class="table-responsive rounded d-none d-md-block">
+                        <table class="table table-sm table-borderless cart-table">
+                            <thead class="text-black">
+                                <tr>
+                                    <th scope="col">Product info</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Subtotal</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+
+                            {% for item in cart_items %}
+                                <tr>
+                                    <td class="p-3 w-25">
+                                        {% if item.product.image %}
+                                            <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                        {% else %}
+                                            <img class="img-fluid rounded" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                                        {% endif %}
+                                    </td>
+                                    <td class="py-3">
+                                        <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                                        <p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
+                                    </td>
+                                    <td class="py-3">
+                                        <p class="my-0 product-price" data-price="{{ item.product.price }}">{{ item.product.price }} €</p>
+                                    </td>
+                                    <td class="py-3 w-25">
+                                        <form class="form update-form" method="POST" action="{% url 'adjust_cart' item.product.id %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <button class="decrement-qty btn btn-sm btn-black rounded-0" 
+                                                            data-item_id="{{ item.product.id }}">
+                                                            <span class="icon">
+                                                                <i class="fas fa-minus"></i>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <input class="form-control form-control-sm qty_input" type="number"
+                                                        name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                                                        data-item_id="{{ item.product.id }}" data-original-quantity="{{ item.quantity }}">
+                                                    <div class="input-group-append">
+                                                        <button class="increment-qty btn btn-sm btn-black rounded-0"
+                                                            data-item_id="{{ item.product.id }}">
+                                                            <span class="icon">
+                                                                <i class="fas fa-plus"></i>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td class="py-3">
+                                        <p class="my-0 subtotal">{{ item.product.price | calc_subtotal:item.quantity }} €</p>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <a class="remove-item text-danger" data-product_id="{{ item.product.id }}" aria-label="Remove item">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                    <!-- Mobile view -->
+                    <div class="d-md-none">
+                        {% for item in cart_items %}
+                            <div class="cart-mobile-item">
+                                <div class="cart-mobile-image">
+                                    {% if item.product.image %}
+                                        <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                    {% else %}
+                                        <img class="img-fluid rounded" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="cart-mobile-details">
+                                    <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                                    <p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
+                                </div>
+                                <div class="cart-mobile-price">
+                                    <p class="my-0 product-price" data-price="{{ item.product.price }}">Price: {{ item.product.price }} €</p>
+                                </div>
+                                <div class="cart-mobile-quantity">
+                                    <form class="form update-form" method="POST" action="{% url 'adjust_cart' item.product.id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <button class="decrement-qty btn btn-sm btn-black rounded-0" 
+                                                        data-item_id="{{ item.product.id }}">
+                                                        <span class="icon">
+                                                            <i class="fas fa-minus"></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <input class="form-control form-control-sm qty_input" type="number"
+                                                    name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                                                    data-item_id="{{ item.product.id }}" data-original-quantity="{{ item.quantity }}">
+                                                <div class="input-group-append">
+                                                    <button class="increment-qty btn btn-sm btn-black rounded-0"
+                                                        data-item_id="{{ item.product.id }}">
+                                                        <span class="icon">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cart-mobile-subtotal">
+                                    <p class="my-0 subtotal">{{ item.product.price | calc_subtotal:item.quantity }} €</p>
+                                </div>
+                                <div class="cart-mobile-remove text-center mt-2">
+                                    <a class="remove-item text-danger" data-product_id="{{ item.product.id }}" aria-label="Remove item">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="cart-summary">
+                        <div class="cart-total">
+                            <h6><strong>Bag total: {{ total|floatformat:2 }} €</strong></h6>
+                            <h6>Delivery: {{ delivery|floatformat:2 }} €</h6>
+                            <h4 class="mt-4"><strong>Grand total: {{ grand_total|floatformat:2 }} €</strong></h4>
+                            {% if free_delivery_delta > 0 %}
+                                <p class="mb-1 text-danger">
+                                    You could get free delivery by spending just <strong>{{ free_delivery_delta }} €</strong> more!
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="cart-buttons">
+                            <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                                <i class="fas fa-chevron-left"></i>
+                                <span class="text-uppercase">Keep shopping</span>
+                            </a>
+                            <a href="{% url 'checkout' %}" class="btn btn-black rounded-0 btn-lg">
+                                <span class="text-uppercase">Secure checkout</span>
+                                <i class="fas fa-lock"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="lead mb-5">Your cart is empty.</p>
+                    <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                        <span class="icon">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                        <span class="text-uppercase">Keep shopping</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Remove item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this item from your cart?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+{% include 'products/includes/quantity_input_script.html' %}
+
+<script type="text/javascript">
+    // Store the form to be submitted and original quantity
+    var formToSubmit = null;
+    var originalQuantity = null;
+
+    // Update quantity on change
+    $('.qty_input').change(function() {
+        var form = $(this).closest('.update-form');
+        var quantity = parseInt($(this).val());
+        
+        if (quantity === 0) {
+            formToSubmit = form;
+            originalQuantity = $(this).data('original-quantity');
+            $('#deleteConfirmModal').modal('show');
+        } else {
+            form.submit();
+        }
+    });
+
+    // Handle increment/decrement buttons
+    $('.increment-qty').click(function(e) {
+        e.preventDefault();
+        var input = $(this).closest('.input-group').find('.qty_input');
+        var currentVal = parseInt(input.val());
+        input.val(currentVal + 1);
+        input.trigger('change');
+    });
+
+    $('.decrement-qty').click(function(e) {
+        e.preventDefault();
+        var input = $(this).closest('.input-group').find('.qty_input');
+        var currentVal = parseInt(input.val());
+        if (currentVal > 1) {
+            input.val(currentVal - 1);
+            input.trigger('change');
+        } else if (currentVal === 1) {
+            formToSubmit = $(this).closest('form');
+            originalQuantity = currentVal;
+            $('#deleteConfirmModal').modal('show');
+        }
+    });
+
+    // Handle trash icon clicks
+    $('.remove-item').click(function(e) {
+        e.preventDefault();
+        var itemId = $(this).data('product_id');
+        var form = $(`form[action="/cart/adjust/${itemId}/"]`);
+        var input = form.find('.qty_input');
+        originalQuantity = parseInt(input.val());
+        formToSubmit = form;
+        $('#deleteConfirmModal').modal('show');
+    });
+
+    // Handle confirm delete button
+    $('#confirmDelete').click(function() {
+        if (formToSubmit) {
+            formToSubmit.find('.qty_input').val(0);
+            formToSubmit.submit();
+        }
+        $('#deleteConfirmModal').modal('hide');
+    });
+
+    // Reset modal state and quantity when modal is cancelled
+    $('#deleteConfirmModal').on('hidden.bs.modal', function () {
+        if (formToSubmit && originalQuantity !== null) {
+            formToSubmit.find('.qty_input').val(originalQuantity);
+        }
+        formToSubmit = null;
+        originalQuantity = null;
+    });
+
+    // Update subtotal when quantity changes
+    function updateSubtotal(input) {
+        var quantity = parseInt(input.val());
+        var price = parseFloat(input.closest('tr, .cart-mobile-item').find('.product-price').data('price'));
+        var subtotal = price * quantity;
+        input.closest('tr, .cart-mobile-item').find('.subtotal').text(subtotal.toFixed(2) + ' €');
+    }
+
+    // Attach updateSubtotal to quantity changes
+    $('.qty_input').on('change input', function() {
+        updateSubtotal($(this));
+    });
+</script>
+{% endblock %}
