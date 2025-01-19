@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /products/
+Allow: /categories/
+
+# Prevent access to admin, accounts, and checkout
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /checkout/
+Disallow: /profile/
+Disallow: /cart/
+
+# Prevent indexing of search results and API endpoints
+Disallow: /search/
+Disallow: /api/
+
+# Allow static and media files
+Allow: /static/
+Allow: /media/
+
+# Sitemap location
+Sitemap: https://medicart-94e507a2dc36.herokuapp.com/sitemap.xml
