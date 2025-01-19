@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart_tools %}
+
+{% block extra_css %}
+    <style>
+        /* Custom styles for mobile view */
+        @media (max-width: 767px) {
+            .table-responsive {
+                margin-bottom: 1rem;
+                border: 0;
+            }
+            
+            .mobile-order-card {
+                margin-bottom: 1rem;
+                border: 1px solid rgba(0,0,0,.125);
+                border-radius: .25rem;
+                padding: 1rem;
+            }
+
+            .mobile-order-card .order-label {
+                font-weight: bold;
+                color: #555;
+            }
+
+            .mobile-order-card .order-value {
+                margin-bottom: 0.5rem;
+            }
+
+            .mobile-order-card .badge {
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Hide table on mobile, show cards instead */
+        @media (max-width: 767px) {
+            .desktop-table {
+                display: none;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mobile-cards {
+                display: none;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="logo-font mb-4">My orders</h2>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {% if orders %}
+                    <!-- Desktop/Tablet View -->
+                    <div class="table-responsive desktop-table">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order number</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'order_history' order.order_number %}"
+                                            class="text-info">
+                                                {{ order.order_number|truncatechars:6 }}
+                                            </a>
+                                        </td>
+                                        <td>{{ order.date }}</td>
+                                        <td>
+                                            <ul class="list-unstyled">
+                                                {% for item in order.lineitems.all %}
+                                                    <li class="small">
+                                                        {{ item.product.name }} x{{ item.quantity }}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>{{ order.calculated_grand_total|format_price }}</td>
+                                        <td>
+                                            <span class="badge bg-success">Completed</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile View -->
+                    <div class="mobile-cards">
+                        {% for order in orders %}
+                            <div class="mobile-order-card">
+                                <div class="order-label">Order number:</div>
+                                <div class="order-value">
+                                    <a href="{% url 'order_history' order.order_number %}" class="text-info">
+                                        {{ order.order_number|truncatechars:6 }}
+                                    </a>
+                                </div>
+
+                                <div class="order-label">Date:</div>
+                                <div class="order-value">{{ order.date }}</div>
+
+                                <div class="order-label">Items:</div>
+                                <div class="order-value">
+                                    <ul class="list-unstyled mb-0">
+                                        {% for item in order.lineitems.all %}
+                                            <li class="small">
+                                                {{ item.product.name }} x{{ item.quantity }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                <div class="order-label">Total:</div>
+                                <div class="order-value">{{ order.calculated_grand_total|format_price }}</div>
+
+                                <span class="badge bg-success">Completed</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <p class="lead mb-4">You haven't placed any orders yet.</p>
+                        <a href="{% url 'products' %}" class="btn btn-primary">
+                            Start shopping
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
