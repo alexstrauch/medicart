@@ -1,0 +1,110 @@
+<footer class="footer mt-auto py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- About Section -->
+            <div class="col">
+                <h5 class="text-uppercase mb-4">About MediCart</h5>
+                <p class="text-muted">MediCart is your trusted healthcare e-commerce platform, providing high-quality medical supplies and equipment to healthcare professionals and individuals alike.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col">
+                <h5 class="text-uppercase mb-4">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="mb-2"><a href="{% url 'products' %}">Products</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="mb-2"><a href="{% url 'profile' %}">My profile</a></li>
+                    {% else %}
+                        <li class="mb-2"><a href="{% url 'account_login' %}">Login</a></li>
+                        <li class="mb-2"><a href="{% url 'account_signup' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Categories -->
+            <div class="col">
+                <h5 class="text-uppercase mb-4">Categories</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'products' %}">All products</a></li>
+                    <li class="mb-2"><a href="{% url 'products' %}?category=medical_supplies">Medical supplies</a></li>
+                    <li class="mb-2"><a href="{% url 'products' %}?category=equipment">Medical equipment</a></li>
+                    <li class="mb-2"><a href="{% url 'products' %}?category=personal_care">Personal care</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter & Social Links -->
+            <div class="col">
+                <h5 class="text-uppercase mb-4">Stay connected</h5>
+                <!-- Newsletter Signup -->
+                <div class="newsletter-signup mb-4">
+                    <p class="text-muted mb-2">Subscribe for updates!</p>
+                    <form action="{% url 'marketing:newsletter_signup' %}" method="POST" class="form mb-3" id="newsletter-form">
+                        {% csrf_token %}
+                        <div class="input-group newsletter-input-group">
+                            <input type="email" 
+                                   name="email" 
+                                   class="form-control" 
+                                   placeholder="Your email address" 
+                                   aria-label="Email address for newsletter" 
+                                   required>
+                            <button class="btn btn-primary newsletter-btn" type="submit" id="newsletter-submit">
+                                <span class="button-text">Subscribe</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="newsletter-feedback mt-2" role="alert" aria-live="polite"></div>
+                    </form>
+                </div>
+                <!-- Social Links -->
+                <div class="social-links-container">
+                    <div class="social-links" role="navigation" aria-label="Social media links">
+                        <a href="https://facebook.com" 
+                           class="social-link"
+                           target="_blank" 
+                           rel="noopener noreferrer external"
+                           aria-label="Visit Facebook (opens in a new tab)">
+                           <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://x.com" 
+                           class="social-link"
+                           target="_blank" 
+                           rel="noopener noreferrer external"
+                           aria-label="Visit X, formerly Twitter (opens in a new tab)">
+                           <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com" 
+                           class="social-link"
+                           target="_blank" 
+                           rel="noopener noreferrer external"
+                           aria-label="Visit Instagram (opens in a new tab)">
+                           <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com" 
+                           class="social-link"
+                           target="_blank" 
+                           rel="noopener noreferrer external"
+                           aria-label="Visit YouTube (opens in a new tab)">
+                           <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://linkedin.com" 
+                           class="social-link"
+                           target="_blank" 
+                           rel="noopener noreferrer external"
+                           aria-label="Visit LinkedIn (opens in a new tab)">
+                           <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; {% now "Y" %} MediCart.<br class="d-block d-sm-none"> All rights reserved.</p>
+                <p class="mt-2 mb-0">Made by <a href="https://github.com/alexstrauch" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Alexander Strauch</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
