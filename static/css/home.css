@@ -1,0 +1,79 @@
+.hero-section {
+    background-color: white;
+    padding: 100px 0;
+    margin-bottom: 50px;
+}
+
+.logo-font {
+    text-transform: uppercase;
+    color: #2c3e50;
+}
+
+.shop-now-button {
+    background: #2c3e50;
+    color: white;
+    min-width: 260px;
+    transition: all 0.3s ease-in-out;
+}
+
+.shop-now-button:hover,
+.shop-now-button:active,
+.shop-now-button:focus {
+    background: #34495e;
+    color: white;
+}
+
+.btn-outline-black {
+    background: white;
+    color: #2c3e50 !important;
+    border: 1px solid #2c3e50;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-black:hover,
+.btn-outline-black:active,
+.btn-outline-black:focus {
+    background: #2c3e50;
+    color: white !important;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.category-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.category-card:hover {
+    background: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .header-container {
+        padding-top: 116px;
+    }
+}
+
+@media (max-width: 767px) {
+    .card-img-top {
+        height: 150px;
+    }
+}
