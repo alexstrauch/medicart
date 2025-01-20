@@ -50,8 +50,9 @@
 
 11. [Bugs](#bugs)
 12. [Deployment](#deployment)
-13. [Credits](#credits)
-14. [Acknowledgements](#acknowledgements)
+13. [Forking](#forking)
+14. [Credits](#credits)
+15. [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
@@ -438,6 +439,85 @@ I deployed this Django application on Heroku, taking advantage of its integratio
 
 8. **Verify deployment**:
    After the deployment was complete, I clicked “View” to open the app and confirm it was functioning properly.
+
+[Back to table of contents](#table-of-contents)
+
+## Forking
+
+If you'd like to fork this repository and run it locally, follow these steps:
+
+1. **Fork the repository**:
+   - Navigate to the GitHub repository: [Everpast](https://github.com/alexstrauch/everpast)
+   - In the top-right corner of the page, click the "Fork" button.
+   - This will create a copy of the repository in your GitHub account.
+
+2. **Clone your fork**:
+   - On your forked repository page, click the "Code" button and copy the URL.
+   - Open your terminal and run:
+     ```
+     git clone [URL you just copied]
+     ```
+   - This creates a local copy of the repository on your machine.
+
+3. **Set up virtual environment**:
+   - Navigate into the project directory:
+     ```
+     cd [project directory name]
+     ```
+   - Create a virtual environment:
+     ```
+     python -m venv venv
+     ```
+   - Activate the virtual environment:
+     - On Windows: `venv\Scripts\activate`
+     - On macOS and Linux: `source venv/bin/activate`
+
+4. **Install dependencies**:
+   - With your virtual environment activated, install the required packages:
+     ```
+     pip install -r requirements.txt
+     ```
+
+5. **Set up environment variables**:
+   - Create a `env.py` file in the root directory of the project.
+   - Add the following variables (replace with your actual values):
+     ```
+     SECRET_KEY=your_secret_key
+     DATABASE_URL=your_database_url
+     CLOUDINARY_API_KEY=your_cloudinary_api_key
+     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+     CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+     DEFAULT_FROM_EMAIL=your_email_address
+     EMAIL_HOST_PASSWORD=your_email_host_password
+     EMAIL_HOST_USER=your_email_host_user
+     MAILCHIMP_API_KEY=your_mailchimp_api_key
+     MAILCHIMP_AUDIENCE_ID=your_mailchimp_audience_id
+     MAILCHIMP_REGION=your_mailchimp_region
+     STRIPE_PUBLIC_KEY=your_stripe_public_key
+     STRIPE_SECRET_KEY=your_stripe_secret_key
+     STRIPE_WH_SECRET=your_stripe_wh_secret
+     DEBUG=True
+     ```
+
+    
+    Important notes: 
+    - Make sure to set `DEBUG=True` for local development and testing in `env.py`. This should be set to `DEBUG=False` in production / when the app is live.
+    - Remember to never commit the `env.py` file or any sensitive information to version control. If you plan to deploy your fork, make sure to set up the necessary environment variables in your deployment environment.
+
+6. **Apply Migrations**:
+   - Run the following commands to apply database migrations:
+     ```
+     python manage.py makemigrations
+     python manage.py migrate
+     ```
+
+7. **Run the development server**:
+   - Start the Django development server:
+     ```
+     python manage.py runserver
+     ```
+   - Open a web browser and navigate to `http://127.0.0.1:8000/` to view the application.
+
 
 [Back to table of contents](#table-of-contents)
 
