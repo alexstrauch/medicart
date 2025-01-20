@@ -399,6 +399,46 @@ The MediCart platform caters to several key user groups:
 
 ## Deployment
 
+I deployed this Django application on Heroku, taking advantage of its integration with GitHub. Here's a step-by-step overview of my deployment process:
+
+1. **Heroku app creation**:
+   I accessed my Heroku dashboard, navigated to “New,” and selected “Create new app.” Then, I picked a unique name for the app and chose the correct region.
+
+2. **GitHub integration**:
+   On the app’s “Deploy” tab, I chose GitHub as the deployment method. I linked my GitHub account and selected the repository with my Django app.
+
+3. **Environment configuration**:
+   In the "Settings" tab, I clicked on "Reveal Config Vars" and added the necessary environment variables:
+
+- `CLOUDINARY_API_KEY`: My Cloudinary API key
+- `CLOUDINARY_API_SECRET`: My Cloudinary API secret
+- `CLOUDINARY_CLOUD_NAME`: My Cloudinary cloud name
+- `DATABASE_URL`: The URL provided by Code Institute for the database
+- `DEFAULT_FROM_EMAIL`: My default email address used with Gmail
+- `EMAIL_HOST_PASSWORD`: My email host password with Gmail
+- `EMAIL_HOST_USER`: My email address with Gmail
+- `MAILCHIMP_API_KEY`: My Mailchimp API key
+- `MAILCHIMP_AUDIENCE_ID`: My Mailchimp audience ID
+- `MAILCHIMP_REGION`: My Mailchimp region
+- `STRIPE_PUBLIC_KEY`: My Stripe public key
+- `STRIPE_SECRET_KEY`: My Stripe secret key
+- `STRIPE_WH_SECRET`: My Stripe webhooks secret
+
+4. **Database configuration**:
+   Since my database is supplied by Code Institute, I verified that the `DATABASE_URL` in Config Vars was correctly configured with the provided database URL. In my Django settings, I ensured this environment variable was used to set up the database connection.
+
+5. **Buildpack configuration**:
+   In the “Settings” tab, I navigated to the “Buildpacks” section, clicked “Add buildpack,” and chose “heroku/python.”
+
+6. **Deployment configuration**:
+   On the “Deploy” tab, under “Deployment method,” I verified that GitHub was chosen. In the “App connected to GitHub” section, I made sure my repository was linked.
+
+7. **Manual deploy**:
+   I scrolled down to the “Manual deploy” section, selected the main branch, and clicked “Deploy Branch.”
+
+8. **Verify deployment**:
+   After the deployment was complete, I clicked “View” to open the app and confirm it was functioning properly.
+
 [Back to table of contents](#table-of-contents)
 
 ## Credits
