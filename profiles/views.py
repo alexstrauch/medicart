@@ -31,7 +31,9 @@ def profile(request):
             # Handle profile update
             form = UserProfileForm(request.POST, instance=profile)
             if form.is_valid():
-                form.save()
+                # Save the profile data first
+                profile = form.save(commit=False)
+                profile.save()
                 
                 # Update User model fields
                 user = request.user
@@ -43,6 +45,7 @@ def profile(request):
                 return redirect('profile')
             else:
                 messages.error(request, 'Update failed. Please ensure the form is valid.')
+                print(form.errors)  # This will help debug any form validation errors
     else:
         form = UserProfileForm(instance=profile, initial={
             'first_name': request.user.first_name,
@@ -55,7 +58,8 @@ def profile(request):
         'form': form,
         'password_form': password_form,
         'orders': orders,
-        'on_profile_page': True
+        'on_profile_page': True,
+        'profile': profile,  # Add this to ensure profile is in the context
     }
 
     return render(request, template, context)
