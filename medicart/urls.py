@@ -7,6 +7,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import StaticViewSitemap, ProductSitemap, CategorySitemap
+from . import views
+
+# Configure error handlers
+handler404 = 'medicart.views.handler404'
+handler500 = 'medicart.views.handler500'
+handler502 = 'medicart.views.handler502'
 
 sitemaps = {
     'static': StaticViewSitemap,
