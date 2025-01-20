@@ -447,7 +447,7 @@ I deployed this Django application on Heroku, taking advantage of its integratio
 If you'd like to fork this repository and run it locally, follow these steps:
 
 1. **Fork the repository**:
-   - Navigate to the GitHub repository: [Everpast](https://github.com/alexstrauch/everpast)
+   - Navigate to the GitHub repository: [MediCart](https://github.com/alexstrauch/medicart)
    - In the top-right corner of the page, click the "Fork" button.
    - This will create a copy of the repository in your GitHub account.
 
