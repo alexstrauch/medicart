@@ -22,9 +22,10 @@ def subscribe_to_mailchimp(email):
 
         response = client.lists.add_list_member(settings.MAILCHIMP_AUDIENCE_ID, {
             "email_address": email,
-            "status": "subscribed"
+            "status": "pending",  # Changed from 'subscribed' to 'pending' for double opt-in
+            "status_if_new": "pending"  # Ensures new subscribers need to confirm
         })
-        return True, "Successfully subscribed to newsletter!"
+        return True, "Thank you! Please check your email to confirm your subscription."
     except ApiClientError as error:
         error_message = error.text
         if "Member Exists" in error_message:
