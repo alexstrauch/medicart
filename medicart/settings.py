@@ -234,6 +234,11 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 FREE_DELIVERY_THRESHOLD = 100
 STANDARD_DELIVERY_PERCENTAGE = 10
 
+# Mailchimp Settings
+MAILCHIMP_API_KEY = os.environ.get('MAILCHIMP_API_KEY')
+MAILCHIMP_REGION = os.environ.get('MAILCHIMP_REGION')
+MAILCHIMP_AUDIENCE_ID = os.environ.get('MAILCHIMP_AUDIENCE_ID')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
