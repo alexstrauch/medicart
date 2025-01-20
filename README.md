@@ -23,6 +23,11 @@
 - [User stories](#user-stories)
 
 3. [Design](#design)
+
+- [Colors](#colors)
+- [Fonts](#fonts)
+- [Wireframes](#wireframes)
+
 4. [Features](#features)
 
 - [Navigation](#navigation)
@@ -182,14 +187,35 @@ The MediCart platform caters to several key user groups:
 
 ## Design
 
+### Colors
+
+### Fonts
+
+- **Poppins**: Main body text
+  - Clean and modern sans-serif font
+  - Excellent readability across different screen sizes
+  - Used for general content, descriptions, and form elements
+
+- **Montserrat**: Headings and titles
+  - Bold and professional appearance
+  - Used for h1-h6 elements
+  - Provides clear visual hierarchy
+
+### Wireframes
+
 <details>
-<summary>(click me)</summary>
-<img src="">
+<summary>Desktop (click me)</summary>
+<img src="docs/medicart-home-desktop.png">
 </details>
 
 <details>
-<summary>(click me)</summary>
-<img src="">
+<summary>Tablet (click me)</summary>
+<img src="docs/medicart-home-iPad.png">
+</details>
+
+<details>
+<summary>Mobile (click me)</summary>
+<img src="docs/medicart-home-iPhone.png">
 </details>
 
 [Back to table of contents](#table-of-contents)
