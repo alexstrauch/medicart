@@ -200,6 +200,11 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
+# Error handling
+handler404 = 'medicart.views.handler404'
+handler500 = 'medicart.views.handler500'
+handler502 = 'medicart.views.handler502'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
