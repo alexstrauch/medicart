@@ -145,9 +145,6 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'MediCart - '
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-# Custom allauth messages
-ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
-
 WSGI_APPLICATION = 'medicart.wsgi.application'
 
 # Database
