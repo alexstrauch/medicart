@@ -10,6 +10,17 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user',)
+        fields = [
+            'first_name',
+            'last_name',
+            'default_phone_number',
+            'default_street_address1',
+            'default_street_address2',
+            'default_town_or_city',
+            'default_county',
+            'default_postcode',
+            'default_country',
+        ]
 
     def __init__(self, *args, **kwargs):
         """
@@ -21,11 +32,12 @@ class UserProfileForm(forms.ModelForm):
             'first_name': 'First name',
             'last_name': 'Last name',
             'default_phone_number': 'Phone number',
-            'default_postcode': 'Postal code',
-            'default_town_or_city': 'Town or city',
             'default_street_address1': 'Street address',
             'default_street_address2': 'House number',
+            'default_town_or_city': 'Town or city',
             'default_county': 'County, State or Locality',
+            'default_postcode': 'Postal code',
+            'default_country': 'Country',
         }
 
         self.fields['default_country'].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
