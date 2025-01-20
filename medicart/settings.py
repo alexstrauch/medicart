@@ -19,7 +19,7 @@ SITE_ID = 1
 if DEBUG:
     SITE_URL = 'http://127.0.0.1:8000'
 else:
-    SITE_URL = os.environ.get('SITE_URL', 'https://your-app-name.herokuapp.com')
+    SITE_URL = 'https://medicart-94e507a2dc36.herokuapp.com'
 
 """
 Django settings for medicart project.
@@ -130,8 +130,8 @@ else:
     EMAIL_USE_SSL = False
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
-    SERVER_EMAIL = os.environ.get('EMAIL_HOST_USER')
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    SERVER_EMAIL = EMAIL_HOST_USER
 
 # AllAuth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -193,14 +193,12 @@ USE_I18N = True
 USE_TZ = True
 
 # Security settings
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ['https://medicart-94e507a2dc36.herokuapp.com']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 # Error handling
 handler404 = 'medicart.views.handler404'
