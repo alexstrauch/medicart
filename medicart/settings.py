@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Temporarily set to True to see the error
+DEBUG = False
 
 ALLOWED_HOSTS = ['medicart-94e507a2dc36.herokuapp.com', 'localhost', '127.0.0.1', '.herokuapp.com']
 
@@ -149,6 +149,8 @@ WSGI_APPLICATION = 'medicart.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import dj_database_url
+
 if DEBUG:
     DATABASES = {
         'default': {
@@ -158,7 +160,7 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     }
 
 # Password validation
