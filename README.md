@@ -46,18 +46,10 @@
 8. [Agile tools](#agile-tools)
 9. [Libraries](#libraries)
 10. [Testing](#testing)
-
-- [Test results](#test-results)
-- [HTML validation](#html-validation)
-- [CSS validation](#css-validation)
-- [JavaScript validation](#javascript-validation)
-- [Python validation](#python-validation)
-
-11. [Bugs](#bugs)
-12. [Deployment](#deployment)
-13. [Forking](#forking)
-14. [Credits](#credits)
-15. [Acknowledgements](#acknowledgements)
+11. [Deployment](#deployment)
+12. [Forking](#forking)
+13. [Credits](#credits)
+14. [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
@@ -366,6 +358,9 @@ The MediCart platform caters to several key user groups:
 
 ## Agile tools
 
+## [Project board](https://github.com/users/alexstrauch/projects/3) (click me)
+
+
 [Back to table of contents](#table-of-contents)
 
 ## Libraries
@@ -378,49 +373,7 @@ The MediCart platform caters to several key user groups:
 
 ## Testing
 
-### Test results
 
-| Test description | Expected result | Actual result | Status |
-| ---------------- | --------------- | ------------- | ------ |
-
-### HTML validation
-
-<details>
-<summary>W3C for HTML code validation (click me)</summary>
-
-<img src="">
-</details>
-
-### CSS validation
-
-<details>
-<summary>W3C for CSS code validation (click me)</summary>
-
-<img src="">
-</details>
-
-### JavaScript validation
-
-<details>
-<summary>JShint for JavaScript validation (click me)</summary>
-
-<img src="">
-</details>
-
-### Python validation
-
-<details>
-<summary>Validation with CI Python Linter (click me)</summary>
-
-<img src="">
-</details>
-
-[Back to table of contents](#table-of-contents)
-
-## Bugs
-
-| Bug | Fix |
-| --- | --- |
 
 [Back to table of contents](#table-of-contents)
 
