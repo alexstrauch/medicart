@@ -6,7 +6,7 @@
 
 (Developer: Alexander Strauch)
 
-## **[Live site]()**
+## **[Live site](https://medicart-94e507a2dc36.herokuapp.com/)**
 
 ## Table of contents
 
