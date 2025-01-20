@@ -24,6 +24,17 @@
 
 3. [Design](#design)
 4. [Features](#features)
+
+- [Navigation](#navigation)
+- [Homepage](#homepage)
+- [Products](#products)
+- [Shopping cart](#shopping-cart)
+- [Checkout](#checkout)
+- [User account](#user-account)
+- [Security features](#security-features)
+- [Admin features](#admin-features)
+- [Additional features](#additional-features)
+
 5. [Future features](#future-features)
 6. [Languages](#languages)
 7. [Technologies](#technologies)
@@ -184,157 +195,79 @@ The MediCart platform caters to several key user groups:
 
 ## Features
 
-###
+### Navigation
 
-<details>
-<summary>(click me)</summary>
+- Responsive navigation bar that adapts to different screen sizes
+- Search functionality to find products quickly
+- Shopping cart icon with real-time item count
+- User account dropdown menu for quick access to profile features
+- Category navigation for easy product browsing
 
-<img src="">
-</details>
+### Homepage
 
-<details>
-<summary>(click me)</summary>
+- Hero section with featured products
+- Category showcase with direct links
+- Newsletter signup form
+- Quick links to popular medical supplies
 
-<img src="">
-</details>
+### Products
 
-<details>
-<summary>(click me)</summary>
+- Product catalog with filtering and sorting options
+- Detailed product pages with:
+  - High-quality product images
+  - Detailed descriptions
+  - Price information
+- Category-based browsing
+- Search functionality with filters
 
-<img src="">
-</details>
+### Shopping cart
 
-<details>
-<summary>(click me)</summary>
+- Real-time cart updates
+- Quantity adjustment functionality
+- Running total calculation
+- Product image thumbnails in cart
+- Remove item functionality
+- Clear cart option
+- Cart total and delivery cost calculation
 
-<img src="">
-</details>
+### Checkout
 
-<details>
-<summary>(click me)</summary>
+- Secure payment processing through Stripe
+- Order summary before payment
+- Delivery information form
+- Secure payment with error handling
+- Loading overlay during payment processing
 
-<img src="">
-</details>
+### User account
 
-<details>
-<summary>(click me)</summary>
+- User registration and authentication
+- Profile management
+- Order history view
+- Default delivery information storage
+- Password reset functionality
+- Email verification
 
-<img src="">
-</details>
+### Security features
 
-<details>
-<summary>(click me)</summary>
+- Secure user authentication
+- Protected admin routes
+- Secure payment processing
+- CSRF protection
+- Secure password handling
 
-<img src="">
-</details>
+### Admin features
 
-<details>
-<summary>(click me)</summary>
+- Product management (add, edit, delete)
+- User management
+- Category management
+- Stock level monitoring
 
-<img src="">
-</details>
+### Additional features
 
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
-
-<details>
-<summary>(click me)</summary>
-
-<img src="">
-</details>
+- Responsive design for all screen sizes
+- Error handling with user-friendly messages
+- Form validation with clear error messages
+- Newsletter subscription functionality
 
 [Back to table of contents](#table-of-contents)
 
