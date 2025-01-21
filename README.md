@@ -823,7 +823,7 @@ This outlines the testing procedures and results for each user story in the Medi
 |-----------|-------|-----------------|--------|
 | Valid payment | Complete checkout with valid card | Order processed successfully | ✅ |
 | Invalid payment | Try invalid card details | Appropriate error message shown | ✅ |
-| Order confirmation | Complete purchase | Confirmation email sent and order visible in profile | ✅ |
+| Order confirmation | Complete purchase | Confirmation notification and order visible in profile | ✅ |
 
 #### Profile management
 | Test case | Steps | Expected result | Status |
@@ -1051,15 +1051,37 @@ If you'd like to fork this repository and run it locally, follow these steps:
 
 ## Credits
 
--
+### Code resources
 
--
+#### Django & Python
+- [Django Documentation](https://docs.djangoproject.com/en/4.2/) - Official Django documentation
+- [Django Allauth](https://django-allauth.readthedocs.io/) - Authentication system
+- [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/) - Form rendering
+- [Django Countries](https://pypi.org/project/django-countries/) - Country field implementation
 
--
+#### Frontend resources
+- [Bootstrap 5](https://getbootstrap.com/) - Frontend framework
+- [Font Awesome](https://fontawesome.com/) - Icons used throughout the site
+- [Google Fonts](https://fonts.google.com/) - Typography
 
--
+#### Payment processing
+- [Stripe Documentation](https://stripe.com/docs) - Payment integration guides
 
--
+#### Image hosting
+- [Cloudinary](https://cloudinary.com/) - Image management
+
+### Media
+
+#### Images
+- Product images generated with [Leonardo AI](https://leonardo.ai/)
+
+### Educational resources
+
+
+- [Mozilla Developer Network (MDN)](https://developer.mozilla.org/) - Web development resources
+- [Real Python](https://realpython.com/) - Python tutorials
+- [CSS-Tricks](https://css-tricks.com/) - CSS guides and tutorials
+- Google
 
 [Back to table of contents](#table-of-contents)
 
