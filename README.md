@@ -46,6 +46,15 @@
 8. [Agile tools](#agile-tools)
 9. [Marketing](#marketing)
 10. [Testing](#testing)
+
+- [User stories testing](#user-stories-testing)
+- [Manual testing](#manual-testing)
+- [Responsiveness testing](#responsiveness-testing)
+- [Browser compatibility](#browser-compatibility)
+- [Lighthouse testing](#lighthouse-testing)
+- [Code validation](#code-validation)
+- [Known bugs](#known-bugs)
+
 11. [Deployment](#deployment)
 12. [Forking](#forking)
 13. [Credits](#credits)
@@ -548,9 +557,229 @@ Future marketing plans
 
 ## Testing
 
+### User stories testing
 
+This outlines the testing procedures and results for each user story in the MediCart project. Each user story has been tested according to its acceptance criteria.
+
+✅ = Passed | ❌ = Failed | 🟡 = Partially implemented | ⏳ = Not yet implemented
+
+## Epic 1: User authentication & profile management
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 1.1 User registration | 1. Navigate to registration page<br>2. Enter email and password<br>3. Submit registration form<br>4. Check email for verification<br>5. Click verification link | - Form submits successfully<br>- Verification email received<br>- Account created after verification<br>- Welcome email received | ✅ |
+| 1.2 User login | 1. Navigate to login page<br>2. Enter credentials<br>3. Test password reset | - Successful login<br>- Password reset email received | ✅ |
+| 1.3 Profile management | 1. Access profile settings<br>2. Update personal information<br>3. Add shipping address<br>4. View order history | - Information updates saved<br>- Order history displayed correctly | ✅ |
+
+## Epic 2: Product management
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 2.1 Product browsing | 1. Browse product categories<br>2. Apply filters<br>3. Test sorting options<br>4. Use search function | - Products display in grid<br>- Filters work correctly<br>- Sorting updates display<br>- Search returns relevant results | ✅ |
+| 2.2 Product details | 1. Click product card<br>2. View images and description<br>3. Check price and availability<br>4. Test "Add to Cart" | - Details page loads correctly<br>- Images display properly<br>- Product info is clear<br>- Add to cart works | ✅ |
+| 2.3 Product reviews | 1. Submit product review<br>2. Rate product<br>3. View other reviews<br>4. Check verified purchase badge | - Review submission works<br>- Rating system functions<br>- Reviews display correctly<br>- Badges show properly | ⏳|
+| 2.4 Product comparison | 1. Select products to compare<br>2. View comparison table<br>3. Test sharing function | - Comparison table displays<br>- Features compared correctly<br>- Sharing works | ⏳ |
+| 2.5 Real-time search | 1. Type in search box<br>2. Check dropdown results<br>3. Test on mobile devices | - Results appear while typing<br>- Dropdown is responsive<br>- Works on all devices | ⏳|
+
+## Epic 3: Shopping cart & checkout
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 3.1 Shopping cart management | 1. Add items to cart<br>2. Update quantities<br>3. Remove items<br>4. Check cart persistence | - Items add/remove correctly<br>- Quantities update<br>- Totals calculate properly<br>- Cart saves between sessions | ✅ |
+| 3.2 Checkout process | 1. Proceed to checkout<br>2. Select shipping address<br>3. Enter payment info<br>4. Complete purchase | - Checkout flow works<br>- Payment processes<br>- Order confirms<br>- Email received | ✅ |
+| 3.3 Guest checkout | 1. Checkout as guest<br>2. Enter email<br>3. Complete purchase<br>4. Check order tracking | - Guest checkout works<br>- Order processes<br>- Tracking available<br>- Account creation offered | ✅ |
+| 3.4 Save for Later | 1. Move items to wishlist<br>2. Check price notifications<br>3. Move back to cart | - Items save to wishlist<br>- Notifications work<br>- Cart/wishlist movement works | ⏳|
+
+## Epic 4: Order management
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 4.1 Order tracking | 1. View order status<br>2. Check shipping updates<br>3. Test email notifications | - Status updates show<br>- Shipping info accurate<br>- Notifications received |  ⏳|
+| 4.2 Order history | 1. View past orders<br>2. Download invoice<br>3. Test reorder function | - History displays correctly<br>- Invoices download<br>- Reorder works | 🟡 |
+| 4.3 Delivery preferences | 1. Set delivery preferences<br>2. Add special instructions<br>3. Update notification settings | - Preferences save<br>- Instructions recorded<br>- Notifications work | ⏳ |
+
+## Epic 5: Admin functionality
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 5.1 Product management | 1. Add new product<br>2. Edit existing product<br>3. Manage inventory | - Products add/edit<br>- Inventory updates<br>- Categories manage | ✅ |
+| 5.2 Order management | 1. View orders<br>2. Update status<br>3. Search orders | - Orders viewable<br>- Status updates<br>- Search works | ⏳ |
+| 5.3 User management | 1. Search users<br>2. Edit user roles<br>3. Manage accounts | - User search works<br>- Roles update<br>- Account management works | ✅ |
+| 5.4 Sales analytics | 1. View dashboard<br>2. Generate reports<br>3. Export data | - Dashboard displays<br>- Reports generate<br>- Exports work | ⏳|
+| 5.5 Customer support | 1. View customer details<br>2. Modify orders<br>3. Track issues | - Customer info accessible<br>- Order modifications work<br>- Issue tracking functions | ⏳ |
+
+## Epic 6: Future features
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 6.1 Prescription management | 1. Upload prescription<br>2. Verify process<br>3. Check reminders | - Upload works<br>- Verification process<br>- Reminders send | ⏳ |
+| 6.2 Live chat support | 1. Start chat<br>2. Connect with staff<br>3. Rate session | - Chat connects<br>- Staff available<br>- Rating works | ⏳ |
+| 6.3 Subscription service | 1. Set up subscription<br>2. Test billing<br>3. Modify schedule | - Subscription creates<br>- Billing works<br>- Modifications save | ⏳ |
+| 6.4 Mobile app | 1. Install app<br>2. Test features<br>3. Check notifications | - App functions<br>- Features work<br>- Notifications receive | ⏳ |
+| 6.5 AI recommendations | 1. Create health profile<br>2. Check recommendations<br>3. Test personalization | - Profile creates<br>- Recommendations show<br>- Personalization works | ⏳ |
+
+## Epic 7: User notifications
+
+| User story | Testing steps | Expected result | Status |
+|------------|--------------|-----------------|--------|
+| 7.1 Authentication notifications | 1. Complete registration<br>2. Login/logout<br>3. Reset password | - Success messages show<br>- Login confirms<br>- Reset notifications work | ✅ |
+| 7.2 Shopping cart notifications | 1. Add to cart<br>2. Update quantity<br>3. Remove item | - Add confirms<br>- Updates notify<br>- Removal confirms | ✅ |
+| 7.3 Checkout notifications | 1. Place order<br>2. Process payment<br>3. Complete checkout | - Order confirms<br>- Payment notifies<br>- Completion confirms | ✅ |
+| 7.4 Product management notifications | 1. Add product<br>2. Update stock<br>3. Delete product | - Addition confirms<br>- Stock alerts show<br>- Deletion confirms | ✅ |
+| 7.5 Error Notifications | 1. Test form validation<br>2. Trigger payment error<br>| - Validation shows<br>- Errors display| ✅ |
+
+## Legend
+- ✅ = Passed: Feature is fully implemented and all tests pass
+- ❌ = Failed: Feature is implemented but tests are failing
+- 🟡 = Partially implemented: Feature is partially complete or under development
+- ⏳ = Not yet implemented: Feature is planned but not yet implemented or tested
 
 [Back to table of contents](#table-of-contents)
+
+### Manual testing
+
+#### Registration
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| User Registration | 1. Click "Register"<br>2. Fill in form with valid data<br>3. Submit form | User account created and verification email sent | ✅ |
+| Email Verification | 1. Click verification link in email<br>2. Confirm email | Email verified and user can log in | ✅ |
+| Invalid Registration | Try to register with:<br>1. Existing email<br>2. Mismatched passwords<br>3. Invalid email format | Appropriate error messages shown | ✅ |
+
+#### Login/Logout
+| Test Case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| User Login | 1. Enter valid credentials<br>2. Click login | Successfully logged in and redirected to home | ✅ |
+| Invalid Login | Try to login with:<br>1. Wrong password<br>2. Unregistered email | Error message shown | ✅ |
+| Logout | Click logout button | User logged out and redirected to home | ✅ |
+
+#### Product browsing
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| View products | Visit products page | All products displayed with images and prices | ✅ |
+| Product categories | Click different categories | Products filtered by category | ✅ |
+| Product search | Use search bar | Relevant products shown based on search terms | ✅ |
+| Product sorting | Use sort dropdown | Products sorted by selected criterion | ✅ |
+
+#### Product details
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| View details | Click on product | Full product details shown | ✅ |
+| Image gallery | Click product images | Image gallery opens and functions | ✅ |
+| Stock status | Check stock indicator | Accurate stock level shown | ✅ |
+
+#### Cart operations
+| Test case | Steps | Expected result | Status |    
+|-----------|-------|-----------------|--------|
+| Add to cart | Click "Add to Cart" button | Product added and cart updated | ✅ |
+| Update quantity | Modify quantity in cart | Quantity and total price updated | ✅ |
+| Remove item | Click remove button | Item removed from cart | ✅ |
+| Cart total | Add multiple items | Cart total correctly calculated | ✅ |
+
+#### Payment
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| Valid payment | Complete checkout with valid card | Order processed successfully | ✅ |
+| Invalid payment | Try invalid card details | Appropriate error message shown | ✅ |
+| Order confirmation | Complete purchase | Confirmation email sent and order visible in profile | ✅ |
+
+#### Profile management
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| Update profile | Edit profile information | Profile successfully updated | ✅ |
+| Order history | View order history | Past orders displayed correctly | ✅ |
+| Delivery info | Save delivery information | Information saved for future use | ✅ |
+
+#### Subscription
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| Subscribe | Enter email and subscribe | Confirmation email sent | ✅ |
+| Unsubscribe | Click unsubscribe link | Successfully unsubscribed | ✅ |
+| Invalid email | Try invalid email format | Error message shown | ✅ |
+
+#### Custom error pages
+| Test case | Steps | Expected result | Status |
+|-----------|-------|-----------------|--------|
+| 404 Page | Visit non-existent URL | Custom 404 page shown | ✅ |
+| 500 Page | Server error occurs | Custom 500 page shown | ✅ |
+| 502 Page | Bad gateway error | Custom 502 page shown | ✅ |
+
+[Back to table of contents](#table-of-contents)
+
+### Responsiveness testing
+
+#### Device testing
+| Device | Viewport size | Status |
+|--------|------------|--------|
+| iPhone 12 | 390px × 844px| ✅ |
+| iPad Pro 11| 834px × 1194px | ✅ |
+| Desktop | 1920x1080 | ✅ |
+
+#### Elements tested for responsiveness
+- Navigation menu
+- Product cards
+- Shopping cart
+- Checkout forms
+- Profile pages
+- Footer
+- Error pages
+
+[Back to table of contents](#table-of-contents)
+
+### Browser compatibility
+
+#### Browser testing
+| Browser | Version | Status |
+|---------|---------|--------|
+| Chrome | Latest | ✅ |
+| Firefox | Latest | ✅ |
+| Safari | Latest | ✅ |
+| Edge | Latest | ✅ |
+
+[Back to table of contents](#table-of-contents)
+
+### Lighthouse testing
+
+<details>
+<summary>Mobile lighthouse test (click me)</summary>
+<img src="docs/medicart-mobile-lighthouse.png">
+</details>
+
+<details>
+<summary>Desktop lighthouse test (click me)</summary>
+<img src="docs/medicart-desktop-lighthouse.png">
+</details>
+
+[Back to table of contents](#table-of-contents)
+
+### Code validation
+
+#### HTML validation
+
+<details>
+<summary>HTML validation (click me)</summary>
+<img src="docs/medicart-html-validation.png">
+</details>
+
+#### CSS validation
+
+<details>
+<summary>CSS validation (click me)</summary>
+<img src="docs/medicart-css-validation.png">
+</details>
+
+#### JavaScript validation
+
+<details>
+<summary>JavaScript validation (click me)</summary>
+<img src="docs/medicart-js-validation.png">
+</details>
+
+#### Python validation
+
+<details>
+<summary>Python validation (click me)</summary>
+<img src="docs/medicart-python-validation.png">
+</details>
 
 ## Deployment
 
