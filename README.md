@@ -41,10 +41,10 @@
 - [Additional features](#additional-features)
 
 5. [Future features](#future-features)
-6. [Languages](#languages)
+6. [Database](#database)
 7. [Technologies](#technologies)
 8. [Agile tools](#agile-tools)
-9. [Libraries](#libraries)
+9. [Marketing](#marketing)
 10. [Testing](#testing)
 11. [Deployment](#deployment)
 12. [Forking](#forking)
@@ -318,41 +318,78 @@ The MediCart platform caters to several key user groups:
 
 [Back to table of contents](#table-of-contents)
 
-## Languages
-
-- Python
-
-- HTML
-
-- CSS
-
-- JavaScript
+## Database
 
 [Back to table of contents](#table-of-contents)
 
 ## Technologies
 
-- GitHub for the repository
+Core technologies
 
-- GitPod
+- **Python 3.9+**: The primary programming language used for the backend development
+- **Django 4.2.17**: High-level Python web framework that encourages rapid development and clean, pragmatic design
+- **JavaScript**: Used for frontend interactivity and dynamic content
+- **HTML5**: Structure and content of web pages
+- **CSS3**: Styling and responsive design
+- **Bootstrap 5**: Frontend framework for responsive design and mobile-first approach
+- **SQLite3**: Development database
+- **PostgreSQL**: Production database
 
-- git for version control
+Authentication and user management
 
-- Chrome Dev Tools
+- **django-allauth 0.58.2**: Integrated set of Django applications addressing authentication, registration, account management
+- **django-countries 7.5.1**: Provides country choices for use with forms, and a country field for models
 
-- Balsamiq for the wireframes
+Forms and styling
 
-- W3C for HTML code validation
+- **django-crispy-forms 2.1**: Controls the rendering behavior of Django forms
+- **crispy-bootstrap5 2023.10**: Bootstrap 5 template pack for django-crispy-forms
+- **django-summernote 0.8.20.0**: WYSIWYG editor for product descriptions
 
-- W3C for CSS code validation
+Payment processing
 
-- JShint for JavaScript validation
+- **Stripe 7.6.0**: Payment processing integration for secure checkout
 
-- CI Python linter for Python validation
+Image and file management
 
-- PostgreSQL for the database
+- **Pillow 10.1.0**: Python Imaging Library for image processing
+- **Cloudinary 1.36.0**: Cloud-based image and video management
+- **django-cloudinary-storage 0.3.0**: Cloudinary storage backend for Django
 
-- Heroku for deployment
+Email and marketing
+
+- **mailchimp-marketing 3.0.75**: Mailchimp integration for email marketing and newsletter functionality
+- **Facebook business page**: Facebook business page for brand presence, customer engagement, marketing & promotionm business information and customer service
+
+Database and storage
+
+- **psycopg2-binary 2.9.9**: PostgreSQL database adapter
+- **dj-database-url 2.1.0**: Database configuration with URLs
+- **django-storages 1.14.2**: Collection of custom storage backends for Django
+
+Development and environment
+
+- **python-dotenv 1.0.0**: Loads environment variables from a .env file
+- **whitenoise 6.6.0**: Static file serving for Python web apps
+- **gunicorn 21.2.0**: Python WSGI HTTP Server for UNIX
+
+Development tools
+
+- **Git**: Version control
+- **GitHub**: Code repository and version control hosting
+- **GitPod**: Cloud development environment
+- **Heroku**: Cloud platform for deployment
+
+Additional tools and services
+
+- **Font Awesome**: Icon library
+- **Google Fonts**: Web font library
+- **Chrome DevTools**: Browser developer tools for testing and debugging
+- **W3C Validator**: HTML and CSS validation
+- **JSHint**: JavaScript code quality tool
+- **PEP8**: Python code style guide
+- **Leonardo.ai**: Product image generator
+- **Balsamiq**: for wireframes
 
 [Back to table of contents](#table-of-contents)
 
@@ -363,11 +400,149 @@ The MediCart platform caters to several key user groups:
 
 [Back to table of contents](#table-of-contents)
 
-## Libraries
+## Marketing
 
--
+**mailchimp-marketing 3.0.75**: Mailchimp integration for email marketing and newsletter functionality
 
--
+<details>
+<summary>Mailchimp email for newsletter subscription (click me)</summary>
+<img src="docs/medicart-mailchimp-newsletter.png">
+</details>
+
+<br>
+
+**Facebook business page**: Facebook business page for brand presence, customer engagement, marketing & promotionm business information and customer service
+
+<details>
+<summary>Wireframe for Facebook business page (click me)</summary>
+<img src="docs/medicart-fb-business-page.png">
+</details>
+
+Business model
+
+MediCart operates as a B2C (Business-to-Consumer) e-commerce platform specializing in medical supplies and healthcare products. The platform bridges the gap between healthcare product manufacturers and end consumers, including both individual customers and healthcare professionals.
+
+Target market
+
+- Individual consumers seeking medical supplies
+- Healthcare professionals
+- Small medical practices
+- Home care providers
+- Sports medicine practitioners
+
+Revenue model
+
+- Direct product sales
+- Premium membership options
+- Professional account benefits
+- Bulk purchase discounts
+
+Core business intent
+
+1. **Accessibility**
+   - Make medical supplies easily accessible to the public
+   - Provide a user-friendly platform for healthcare product procurement
+   - Offer competitive pricing through direct supplier relationships
+
+2. **Quality assurance**
+   - Partner with reputable medical supply manufacturers
+   - Implement strict quality control measures
+   - Maintain proper storage and handling standards
+
+3. **Customer education**
+   - Provide detailed product information
+   - Offer usage guidelines and recommendations
+   - Share healthcare-related content and updates
+
+4. **Professional services**
+   - Special accounts for healthcare professionals
+   - Bulk ordering capabilities
+   - Priority support for medical practices
+
+Marketing strategies
+
+Digital Marketing
+
+1. **Email marketing**
+   - Mailchimp newsletter integration
+   - Segmented email campaigns
+   - Personalized product recommendations
+   - Health tips and product updates
+   - Special offers and promotions
+   - Abandoned cart recovery emails
+
+2. **Social media**
+   - Facebook business page
+     - Regular product updates
+     - Health tips and advice
+     - Customer testimonials
+     - Community engagement
+     - Live Q&A sessions
+     - Special offers and promotions
+
+3. **Content marketing**
+   - Health and wellness blog
+   - Product usage guides
+   - Educational content
+   - Industry news and updates
+   - Expert interviews
+
+4. **SEO strategy**
+   - Healthcare-focused keywords
+   - Local SEO for medical practices
+   - Product-specific optimization
+   - Medical terminology integration
+
+Customer retention
+
+1. **Loyalty program**
+   - Points system for purchases
+   - Member-only discounts
+   - Early access to new products
+   - Referral rewards
+
+2. **Professional partnerships**
+   - Healthcare provider discounts
+   - Bulk purchase programs
+   - Professional account benefits
+
+3. **Customer service**
+   - Dedicated support team
+   - Product expertise
+   - Quick response times
+   - Multiple contact channels
+
+Marketing channels
+
+1. **Primary channels**
+   - Website/E-commerce Platform
+   - Email Marketing (Mailchimp)
+   - Facebook Business Page
+
+2. **Secondary channels**
+   - Professional healthcare networks
+   - Medical conferences
+   - Healthcare industry events
+   - Local medical practices
+
+
+Future marketing plans
+
+1. **Platform expansion**
+   - Mobile app development
+   - Additional social media platforms
+   - Healthcare professional network
+
+2. **Content development**
+   - Video product guides
+   - Expert webinars
+   - Healthcare podcasts
+   - Educational series
+
+3. **Partnership growth**
+   - Medical institution collaborations
+   - Healthcare influencer partnerships
+   - Industry event sponsorships
 
 [Back to table of contents](#table-of-contents)
 
