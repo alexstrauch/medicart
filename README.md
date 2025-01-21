@@ -329,6 +329,148 @@ The MediCart platform caters to several key user groups:
 
 ## Database
 
+```mermaid
+erDiagram
+    User ||--o{ UserProfile : has
+    User ||--o{ Order : places
+    User ||--o{ Address : has
+    UserProfile ||--o{ Address : contains
+    Product ||--o{ OrderItem : contains
+    Product ||--o{ CartItem : contains
+    Product }|--|| Category : belongs_to
+    Order ||--|{ OrderItem : contains
+    Order ||--|| Address : ships_to
+    Cart ||--|{ CartItem : contains
+    Cart ||--|| User : belongs_to
+
+    User {
+        int id PK
+        string email
+        string password
+        boolean is_active
+        boolean is_staff
+        datetime date_joined
+        datetime last_login
+    }
+
+    UserProfile {
+        int id PK
+        int user_id FK
+        string phone_number
+        boolean newsletter_subscribed
+        datetime created_at
+        datetime updated_at
+    }
+
+    Address {
+        int id PK
+        int user_id FK
+        string street_address1
+        string street_address2
+        string city
+        string state
+        string postal_code
+        string country
+        boolean default_shipping
+        boolean default_billing
+    }
+
+    Product {
+        int id PK
+        int category_id FK
+        string name
+        string sku
+        text description
+        decimal price
+        int stock_quantity
+        string image_url
+        boolean active
+        datetime created_at
+        datetime updated_at
+    }
+
+    Category {
+        int id PK
+        string name
+        string slug
+        text description
+        boolean active
+    }
+
+    Order {
+        int id PK
+        int user_id FK
+        int shipping_address_id FK
+        string order_number
+        decimal total_amount
+        string status
+        decimal shipping_cost
+        string payment_status
+        string shipping_method
+        datetime created_at
+        datetime updated_at
+    }
+
+    OrderItem {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal price_at_time
+        decimal subtotal
+    }
+
+    Cart {
+        int id PK
+        int user_id FK
+        datetime created_at
+        datetime updated_at
+    }
+
+    CartItem {
+        int id PK
+        int cart_id FK
+        int product_id FK
+        int quantity
+        datetime added_at
+        datetime updated_at
+    }
+```
+### Table descriptions
+
+#### User
+- Core user table for authentication and basic user information
+- Handles login credentials and account status
+
+#### UserProfile
+- Extended user information
+
+#### Address
+- Stores shipping and billing address
+
+#### Product
+- Main product information
+
+#### Category
+- Product categorization
+- Uses slugs for SEO-friendly URLs
+
+#### Order
+- Contains order status and payment information
+
+#### OrderItem
+- Individual items within an order
+- Stores price at time of purchase
+
+#### Cart
+- Shopping cart header
+- Links to current user session
+
+#### CartItem
+- Individual items in shopping cart
+- Tracks quantity and when items were added
+
+
 [Back to table of contents](#table-of-contents)
 
 ## Technologies
@@ -780,6 +922,8 @@ This outlines the testing procedures and results for each user story in the Medi
 <summary>Python validation (click me)</summary>
 <img src="docs/medicart-python-validation.png">
 </details>
+
+[Back to table of contents](#table-of-contents)
 
 ## Deployment
 
