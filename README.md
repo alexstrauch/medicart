@@ -195,6 +195,46 @@ The MediCart platform caters to several key user groups:
 
 ### Colors
 
+<details>
+<summary>Logo color (click me)</summary>
+<img src="docs/logo-color.png">
+</details>
+
+<details>
+<summary>Welcome message color (click me)</summary>
+<img src="docs/welcome-message-color.png">
+</details>
+
+<details>
+<summary>Social media icons normal color (click me)</summary>
+<img src="docs/social-media-icons-normal.png">
+</details>
+
+<details>
+<summary>Social media icons hover color (click me)</summary>
+<img src="docs/social-media-icons-hover.png">
+</details>
+
+<details>
+<summary>Link color (click me)</summary>
+<img src="docs/link-color.pngg">
+</details>
+
+<details>
+<summary>Garbage can color (click me)</summary>
+<img src="docs/garbage-can-color.png">
+</details>
+
+<details>
+<summary>Cancel button color (click me)</summary>
+<img src="docs/cancel-button-color.png">
+</details>
+
+<details>
+<summary>Remove button color (click me)</summary>
+<img src="docs/remove-button-color.png">
+</details>
+
 ### Fonts
 
 - **Poppins**: Main body text
