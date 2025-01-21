@@ -541,6 +541,7 @@ Additional tools and services
 - **PEP8**: Python code style guide
 - **Leonardo.ai**: Product image generator
 - **Balsamiq**: for wireframes
+- **Mermaid.js**: for database schema
 
 [Back to table of contents](#table-of-contents)
 
