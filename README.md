@@ -217,7 +217,7 @@ The MediCart platform caters to several key user groups:
 
 <details>
 <summary>Link color (click me)</summary>
-<img src="docs/link-color.pngg">
+<img src="docs/link-color.png">
 </details>
 
 <details>
@@ -1144,5 +1144,7 @@ If you'd like to fork this repository and run it locally, follow these steps:
 [Back to table of contents](#table-of-contents)
 
 ## Acknowledgements
+
+I would like to thank Code Institute, the cohort facilitators, the awesome Slack community and my mentor Gareth McGirr.
 
 [Back to table of contents](#table-of-contents)
