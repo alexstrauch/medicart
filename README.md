@@ -53,11 +53,16 @@
 - [Browser compatibility](#browser-compatibility)
 - [Lighthouse testing](#lighthouse-testing)
 - [Code validation](#code-validation)
-- [Known bugs](#known-bugs)
+- [Bugs](#bugs)
 
 11. [Deployment](#deployment)
 12. [Forking](#forking)
 13. [Credits](#credits)
+
+- [Code resources](#code-resources)
+- [Media](#media)
+- [Educational resources](#educational-resources)
+
 14. [Acknowledgements](#acknowledgements)
 
 ## Introduction
@@ -923,6 +928,19 @@ This outlines the testing procedures and results for each user story in the Medi
 <summary>Python validation (click me)</summary>
 <img src="docs/medicart-python-validation.png">
 </details>
+
+[Back to table of contents](#table-of-contents)
+
+### Bugs
+
+| Bug                                                                                |Fix                                         |
+| -----------------------------------------------------------------------------------|--------------------------------------------|
+| Currency was US Dollars not € ![bug image 1](docs/bug1-dollarsign.png) | ![bug image 1 fix](docs/bug1-fix.png)        |
+| Style quantity buttons ![bug image 2](docs/bug2-style-quantity-buttons.png)       | ![bug image 2 fix](docs/bug2-fix.png)        |
+| Text not centered ![bug image 3](docs/bug3-text-not-centered.png) | ![bug image 3 fix](docs/bug3-fix.png)        |
+| Product name not showing ![bug image 4](docs/bug4-product-name-not-showing.png) | ![bug image 4 fix](docs/bug4-fix1.png) ![bug image 4 fix](docs/bug4-fix2.png) ![bug image 4 fix](docs/bug4-fix3-mobile-nav-creation.png)       |
+| Mobile homepage height ![bug image 5](docs/bug5-mobile-homepage-height.png) | ![bug image 5 fix](docs/bug5-fix.png)        |
+| On mobile: Subscribe message overflow ![bug image 6](docs/bug6-mobile-subscribe-overflow.png)       | ![bug image 6 fix](docs/bug6-fix.png)        |
 
 [Back to table of contents](#table-of-contents)
 
