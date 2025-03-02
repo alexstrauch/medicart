@@ -1,13 +1,31 @@
+"""
+Context processor for the shopping cart functionality.
+Provides cart data and calculations to all templates in the application.
+Handles product totals, delivery costs, and free delivery threshold logic.
+"""
+
 from decimal import Decimal
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from products.models import Product
 
+
 def cart_contents(request):
     """
-    A context processor that makes the cart contents available to all templates.
-    Calculates total cost, delivery charges, and handles free delivery threshold.
-    Returns a dictionary containing cart items and calculated totals.
+    Calculate and return the current state of the shopping cart.
+    
+    Args:
+        request: The HTTP request object containing the session
+    
+    Returns:
+        dict: Context dictionary containing:
+            - cart_items: List of dictionaries with product and quantity info
+            - total: Total cost of all items
+            - product_count: Total number of items
+            - delivery: Calculated delivery cost
+            - free_delivery_delta: Amount needed to reach free delivery
+            - free_delivery_threshold: Minimum amount for free delivery
+            - grand_total: Total including delivery
     """
     cart_items = []
     total = 0
