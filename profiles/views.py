@@ -1,3 +1,15 @@
+"""
+Views for the profiles app.
+
+This module provides views for managing user profiles, including:
+- Profile viewing and editing
+- Password changing
+- Order history viewing
+- Account deletion
+
+All views in this module require user authentication.
+"""
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,7 +24,24 @@ from checkout.models import Order
 
 @login_required
 def profile(request):
-    """ Display the user's profile. """
+    """
+    Display and handle updates to the user's profile.
+
+    This view handles:
+    1. GET requests: Display profile and order history
+    2. POST requests:
+       - Profile information updates
+       - Password changes
+
+    Args:
+        request: HttpRequest object
+
+    Returns:
+        HttpResponse: Rendered profile page with:
+        - User's profile information
+        - Order history
+        - Forms for profile and password updates
+    """
     profile = get_object_or_404(UserProfile, user=request.user)
     orders = profile.orders.all().order_by('-date')
 
@@ -31,9 +60,7 @@ def profile(request):
             # Handle profile update
             form = UserProfileForm(request.POST, instance=profile)
             if form.is_valid():
-                # Save the profile data first
                 profile = form.save(commit=False)
-                profile.save()
                 
                 # Update User model fields
                 user = request.user
@@ -41,7 +68,16 @@ def profile(request):
                 user.last_name = form.cleaned_data.get('last_name', '')
                 user.save()
                 
+                # Now save the profile with the updated user reference
+                profile.user = user
+                profile.save()
+                
+                # Re-fetch the profile to ensure we have the latest data
+                profile = UserProfile.objects.get(user=request.user)
+                
                 messages.success(request, 'Profile updated successfully')
+                
+                # Redirect with updated data
                 return redirect('profile')
             else:
                 messages.error(request, 'Update failed. Please ensure the form is valid.')
@@ -67,6 +103,24 @@ def profile(request):
 
 @login_required
 def order_history(request, order_number):
+    """
+    Display details of a specific past order.
+
+    Retrieves and displays a past order with calculated totals.
+    Uses annotations to recalculate order totals for verification.
+
+    Args:
+        request: HttpRequest object
+        order_number (str): The unique order number to display
+
+    Returns:
+        HttpResponse: Rendered order details using checkout success template
+
+    Notes:
+        - Annotates the order query to calculate totals
+        - Uses checkout success template with from_profile flag
+        - Shows informational message about past order
+    """
     order = get_object_or_404(Order.objects.annotate(
         calculated_total=Sum('lineitems__lineitem_total'),
         calculated_delivery=F('delivery_cost'),
@@ -87,34 +141,29 @@ def order_history(request, order_number):
     return render(request, template, context)
 
 
-@login_required
-def professional_verification(request):
-    """ Handle professional verification requests """
-    profile = get_object_or_404(UserProfile, user=request.user)
-
-    if request.method == 'POST':
-        license_number = request.POST.get('professional_license')
-        if license_number:
-            profile.professional_license = license_number
-            profile.is_professional = True
-            # In a real application, you would verify the license here
-            profile.professional_verification = True
-            profile.save()
-            messages.success(request, 'Professional status verified successfully')
-        else:
-            messages.error(request, 'Please provide a valid license number')
-
-    template = 'profiles/professional_verification.html'
-    context = {
-        'profile': profile,
-    }
-
-    return render(request, template, context)
-
 
 @login_required
 def delete_account(request):
-    """Handle account deletion"""
+    """
+    Handle user account deletion requests.
+
+    Permanently deletes the user account and all associated data.
+    Only processes deletion on POST request as a safety measure.
+
+    Args:
+        request: HttpRequest object
+
+    Returns:
+        HttpResponse: 
+            - POST: Redirect to home after successful deletion
+            - GET: Redirect to profile (deletion requires POST)
+
+    Notes:
+        - Requires login
+        - Logs out user before deletion
+        - Cascading delete removes profile and related data
+        - Action is irreversible
+    """
     if request.method == 'POST':
         user = request.user
         # Logout the user first
