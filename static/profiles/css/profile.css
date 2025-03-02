@@ -1,67 +1,66 @@
+/* Order History Section */
+/* Scrollable container for order history with fixed height */
 .order-history {
-    max-height: 416px; /* height of profile form + submit button */
-    overflow-y: auto;
+  max-height: 416px; /* height of profile form + submit button */
+  overflow-y: auto;
 }
 
+/* Profile Form Styling */
+/* Form control and input styling for the profile update form */
 #profile-update-form .form-control {
-    color: #000;
+  color: #000;
 }
 
 #profile-update-form input::placeholder {
-    color: #aab7c4;
+  color: #aab7c4;
 }
 
 #id_default_country,
 #id_default_country option:not(:first-child) {
-    color: #000;
+  color: #000;
 }
 
 #id_default_country option:first-child {
-    color: #aab7c4;
+  color: #aab7c4;
 }
 
 .form-control:focus {
-    border-color: #17a2b8;
-    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+  border-color: #17a2b8;
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
 }
 
+/* Button Styling */
+/* Custom black button with hover and focus states */
 .btn-black {
-    background: #000;
-    color: #fff;
+  background: #000;
+  color: #fff;
 }
 
 .btn-black:hover,
 .btn-black:focus {
-    background: #222;
-    color: #fff;
+  background: #222;
+  color: #fff;
 }
 
 .order-history {
-    border-radius: 0.25rem;
-    border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  border: 1px solid #dee2e6;
 }
 
 .table th {
-    border-top: none;
-}
-
-.professional-verification {
-    background-color: #f8f9fa;
-    padding: 2rem;
-    border-radius: 0.25rem;
-    margin-top: 2rem;
+  border-top: none;
 }
 
 .list-group-item {
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
 }
 
 .list-group-item:first-child {
-    border-top: none;
+  border-top: none;
 }
 
 .list-group-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
