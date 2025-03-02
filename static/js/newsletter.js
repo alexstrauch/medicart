@@ -1,10 +1,24 @@
+/**
+ * Newsletter subscription handling
+ * Manages the newsletter subscription form, including:
+ * - Form submission via AJAX
+ * - Loading state management
+ * - Success/error feedback
+ * - CSRF token handling
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
     const newsletterForm = document.getElementById('newsletter-form');
     const submitButton = document.getElementById('newsletter-submit');
     const buttonText = submitButton.querySelector('.button-text');
     const spinner = submitButton.querySelector('.spinner-border');
     const feedbackDiv = document.querySelector('.newsletter-feedback');
 
+    /**
+     * Toggle loading state of the submit button
+     * @param {boolean} isLoading - Whether to show loading state
+     */
     function setLoading(isLoading) {
         if (isLoading) {
             buttonText.textContent = 'Subscribing...';
@@ -17,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    /**
+     * Display feedback message to the user
+     * @param {string} message - The message to display
+     * @param {boolean} isSuccess - Whether this is a success message
+     */
     function showFeedback(message, isSuccess) {
         feedbackDiv.textContent = message;
         feedbackDiv.className = `newsletter-feedback mt-2 alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
