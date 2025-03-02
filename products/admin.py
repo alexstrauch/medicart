@@ -1,10 +1,10 @@
 """
 Admin configuration for the products app.
-Customizes the admin interface for Category, Product, and Review models.
+Customizes the admin interface for Category and Product models.
 """
 
 from django.contrib import admin
-from .models import Category, Product, Review
+from .models import Category, Product
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -43,24 +43,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'requires_prescription', 'is_professional_only',)
 
 
-class ReviewAdmin(admin.ModelAdmin):
-    """
-    Admin configuration for Review model.
-    Displays review information with filtering options
-    and protected creation timestamp.
-    
-    Features:
-    - Filter by rating and date
-    - Search across product, user, and review text
-    - Read-only creation timestamp
-    """
-    list_display = ('product', 'user', 'rating', 'created_at',)
-    list_filter = ('rating', 'created_at',)
-    search_fields = ('product__name', 'user__username', 'text',)
-    readonly_fields = ('created_at',)
-
-
 # Register models with their respective admin classes
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Review, ReviewAdmin)
