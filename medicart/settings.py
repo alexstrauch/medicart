@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -9,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False if os.environ.get('PRODUCTION') == 'True' else True
 
 ALLOWED_HOSTS = ['medicart-94e507a2dc36.herokuapp.com', 'localhost', '127.0.0.1', '.herokuapp.com']
 
@@ -33,8 +34,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import dj_database_url
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -56,7 +55,6 @@ INSTALLED_APPS = [
     # Third party apps
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
     'crispy_forms',
     'crispy_bootstrap5',
     'cloudinary',
@@ -73,6 +71,9 @@ INSTALLED_APPS = [
     'marketing',
     'orders',
     'accounts',  # Add 'accounts' to INSTALLED_APPS
+    'wishlist',  # Wishlist functionality
+    'reviews',  # Product reviews functionality
+    'contact',  # Contact form and history
 ]
 
 MIDDLEWARE = [
@@ -120,20 +121,45 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Email Settings
+# Force SMTP backend and configure email settings
+if DEBUG:
+    print('Configuring email settings...')
+
+# Explicitly set email backend to SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Email server settings
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+EMAIL_USE_SSL = False
+
+# Get email credentials
+email_user = os.environ.get('EMAIL_HOST_USER')
+email_pass = os.environ.get('EMAIL_HOST_PASSWORD')
+
+if not email_user or not email_pass:
+    raise ValueError('Email credentials missing! Check your .env file')
+
+# Configure email settings
+EMAIL_HOST_USER = email_user
+EMAIL_HOST_PASSWORD = email_pass
+
+# Print debug info
+if DEBUG:
+    print(f'Email backend: {EMAIL_BACKEND}')
+DEFAULT_FROM_EMAIL = email_user  # Use the same email as EMAIL_HOST_USER
 
 # Django Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False  # One email field is enough
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # Don't use username field
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.UserRegistrationForm',
+}
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
@@ -141,7 +167,6 @@ WSGI_APPLICATION = 'medicart.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-import dj_database_url
 
 DATABASES = {
     'default': {
@@ -153,6 +178,13 @@ DATABASES = {
 if os.environ.get('DATABASE_URL'):
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
 # Password validation
@@ -187,7 +219,7 @@ USE_TZ = True
 # Security settings
 CSRF_TRUSTED_ORIGINS = ['https://medicart-94e507a2dc36.herokuapp.com']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False if DEBUG else True
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
@@ -204,11 +236,23 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'allauth': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.security': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.mail': {
+            'handlers': ['console'],
+            'level': 'INFO',
         },
     },
 }
