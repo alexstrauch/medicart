@@ -1,9 +1,28 @@
+"""
+Forms for the profiles app.
+
+This module provides forms for managing user profiles, including
+both the UserProfile model fields and User model fields (first/last name).
+The forms include styling and placeholder text for better UX.
+"""
+
 from django import forms
 from .models import UserProfile
 from django.contrib.auth.models import User
 
 
 class UserProfileForm(forms.ModelForm):
+    """
+    Form for managing user profile information.
+
+    This form combines:
+    1. User model fields (first_name, last_name)
+    2. UserProfile model fields (delivery information)
+
+    The form includes custom styling and placeholders for all fields,
+    and handles the complexity of updating both User and UserProfile
+    models in a single form.
+    """
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
 
@@ -23,8 +42,17 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        Add placeholders and classes, remove auto-generated
-        labels and set autofocus on first field
+        Initialize the UserProfileForm.
+
+        Customizes form appearance and behavior by:
+        1. Adding placeholders for all fields
+        2. Setting autofocus on first name field
+        3. Adding custom styling classes
+        4. Marking required fields with asterisk
+
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
         """
         super().__init__(*args, **kwargs)
         placeholders = {
@@ -38,10 +66,14 @@ class UserProfileForm(forms.ModelForm):
             'default_postcode': 'Postal Code',
         }
 
+        # Set autofocus on first name field
         self.fields['first_name'].widget.attrs['autofocus'] = True
+        
+        # Custom styling for country field
         self.fields['default_country'].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
         self.fields['default_country'].label = 'Country'
 
+        # Add placeholders and styling to all fields except country
         for field in self.fields:
             if field != 'default_country':
                 if self.fields[field].required:
