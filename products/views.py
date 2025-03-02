@@ -1,7 +1,7 @@
 """
 Views for the products app.
 Handles product listing, details, and management functionality.
-Includes product CRUD operations and review system.
+Includes product CRUD operations.
 """
 
 from django.shortcuts import render, redirect, reverse, get_object_or_404
@@ -9,8 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.functions import Lower
-from .models import Product, Category, Review
-from .forms import ProductForm, ReviewForm
+from .models import Product, Category
+from .forms import ProductForm
+from wishlist.models import Wishlist
 
 
 def all_products(request):
@@ -73,16 +74,37 @@ def all_products(request):
 def product_detail(request, product_id):
     """
     Display detailed information for a specific product.
-    Shows product details, reviews, and related information.
+
+    Shows comprehensive product information including:
+    - Basic details (name, price, category)
+    - Full description
+    - Stock status
+    - Medical requirements (prescription/professional)
+    - Image if available
+
+    Args:
+        request: HttpRequest object
+        product_id (int): Primary key of the product to display
+
+    Returns:
+        HttpResponse: Rendered product detail page
+
+    Raises:
+        Http404: If product_id doesn't exist
     """
     product = get_object_or_404(Product, pk=product_id)
-    reviews = product.reviews.all()
-    review_form = ReviewForm()
+
+    # Check if product is in user's wishlist and get user's review if it exists
+    in_wishlist = False
+    user_review = None
+    if request.user.is_authenticated:
+        in_wishlist = Wishlist.objects.filter(user=request.user, product=product).exists()
+        user_review = product.reviews.filter(user=request.user).first()
 
     context = {
         'product': product,
-        'reviews': reviews,
-        'review_form': review_form,
+        'in_wishlist': in_wishlist,
+        'user_review': user_review,
     }
 
     return render(request, 'products/product_detail.html', context)
@@ -98,23 +120,29 @@ def add_product(request):
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            product = form.save()
-            messages.success(request, 'Successfully added product!')
-            return redirect(reverse('product_detail', args=[product.id]))
+    try:
+        if request.method == 'POST':
+            form = ProductForm(request.POST, request.FILES)
+            if form.is_valid():
+                product = form.save()
+                messages.success(request, 'Successfully added product!')
+                return redirect(reverse('product_detail', args=[product.id]))
+            else:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'Error in {field}: {error}')
         else:
-            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
-    else:
-        form = ProductForm()
+            form = ProductForm()
         
-    template = 'products/add_product.html'
-    context = {
-        'form': form,
-    }
+        template = 'products/add_product.html'
+        context = {
+            'form': form,
+        }
 
-    return render(request, template, context)
+        return render(request, template, context)
+    except Exception as e:
+        messages.error(request, f'Error adding product: {str(e)}')
+        return redirect(reverse('products'))
 
 
 @login_required
@@ -127,26 +155,32 @@ def edit_product(request, product_id):
         messages.error(request, 'Sorry, only store owners can do that.')
         return redirect(reverse('home'))
 
-    product = get_object_or_404(Product, pk=product_id)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Successfully updated "{product.name}"!')
-            return redirect(reverse('product_detail', args=[product.id]))
+    try:
+        product = get_object_or_404(Product, pk=product_id)
+        if request.method == 'POST':
+            form = ProductForm(request.POST, request.FILES, instance=product)
+            if form.is_valid():
+                form.save()
+                messages.success(request, f'Successfully updated "{product.name}"!')
+                return redirect(reverse('product_detail', args=[product.id]))
+            else:
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f'Error in {field}: {error}')
         else:
-            messages.error(request, 'Failed to update product. Please ensure the form is valid.')
-    else:
-        form = ProductForm(instance=product)
-        messages.info(request, f'You are editing "{product.name}"')
+            form = ProductForm(instance=product)
+            messages.info(request, f'You are editing "{product.name}"')
 
-    template = 'products/edit_product.html'
-    context = {
-        'form': form,
-        'product': product,
-    }
+        template = 'products/edit_product.html'
+        context = {
+            'form': form,
+            'product': product,
+        }
 
-    return render(request, template, context)
+        return render(request, template, context)
+    except Exception as e:
+        messages.error(request, f'Error updating product: {str(e)}')
+        return redirect(reverse('products'))
 
 
 @login_required
@@ -164,26 +198,3 @@ def delete_product(request, product_id):
     product.delete()
     messages.success(request, f'Product "{product_name}" has been deleted!')
     return redirect(reverse('products'))
-
-
-@login_required
-def add_review(request, product_id):
-    """
-    Add a review to a product.
-    Requires user authentication.
-    """
-    product = get_object_or_404(Product, pk=product_id)
-
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.product = product
-            review.user = request.user
-            review.save()
-            messages.success(request, 'Successfully added review!')
-            return redirect(reverse('product_detail', args=[product.id]))
-        else:
-            messages.error(request, 'Failed to add review. Please ensure the form is valid.')
-    
-    return redirect(reverse('product_detail', args=[product.id]))
