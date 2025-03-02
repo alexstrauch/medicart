@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpR
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
@@ -176,6 +178,7 @@ def checkout_success(request, order_number):
     """
     Handle successful checkouts.
     Saves user profile information if requested and clears the cart.
+    Sends confirmation email to customer.
     
     Args:
         request: HTTP request
@@ -194,7 +197,21 @@ def checkout_success(request, order_number):
 
         # Save the user's info
         if save_info:
+            # Split full name into first and last name
+            name_parts = order.full_name.split(' ', 1)
+            first_name = name_parts[0]
+            last_name = name_parts[1] if len(name_parts) > 1 else ''
+            
+            # Update user's first and last name
+            user = request.user
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            
+            # Update profile data
             profile_data = {
+                'first_name': first_name,
+                'last_name': last_name,
                 'default_phone_number': order.phone_number,
                 'default_country': order.country,
                 'default_postcode': order.postcode,
@@ -214,9 +231,39 @@ def checkout_success(request, order_number):
     if 'cart' in request.session:
         del request.session['cart']
 
+    # Send confirmation email
+    print('Attempting to send confirmation email...')
+    print(f'Sending to: {order.email}')
+    print(f'From: {settings.DEFAULT_FROM_EMAIL}')
+    
+    subject = render_to_string(
+        'checkout/confirmation_emails/confirmation_email_subject.txt',
+        {'order': order}).strip()
+    print(f'Email subject: {subject}')
+    
+    body = render_to_string(
+        'checkout/confirmation_emails/confirmation_email_body.txt',
+        {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL})
+    print('Email body generated')
+    
+    try:
+        print('Attempting to send mail via SMTP...')
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [order.email],
+            fail_silently=False,
+        )
+        print('Email sent successfully!')
+    except Exception as e:
+        print(f'Email sending failed with error: {str(e)}')
+        messages.error(request, f'Failed to send confirmation email. Error: {str(e)}')
+
     template = 'checkout/checkout_success.html'
     context = {
         'order': order,
+        'from_profile': False,
     }
 
     return render(request, template, context)
