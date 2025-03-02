@@ -23,7 +23,25 @@ class Order(models.Model):
     """
     Order model representing a customer's purchase.
     Stores delivery information, costs, and links to line items.
+    Includes status tracking and verification methods.
     """
+    
+    # Order status choices
+    STATUS_PENDING = 'PENDING'
+    STATUS_PAYMENT_CONFIRMED = 'PAYMENT_CONFIRMED'
+    STATUS_PROCESSING = 'PROCESSING'
+    STATUS_SHIPPED = 'SHIPPED'
+    STATUS_DELIVERED = 'DELIVERED'
+    STATUS_CANCELLED = 'CANCELLED'
+    
+    STATUS_CHOICES = [
+        (STATUS_PENDING, 'Pending'),
+        (STATUS_PAYMENT_CONFIRMED, 'Payment Confirmed'),
+        (STATUS_PROCESSING, 'Processing'),
+        (STATUS_SHIPPED, 'Shipped'),
+        (STATUS_DELIVERED, 'Delivered'),
+        (STATUS_CANCELLED, 'Cancelled'),
+    ]
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                    null=True, blank=True, related_name='orders')
@@ -42,6 +60,24 @@ class Order(models.Model):
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     original_cart = models.TextField(null=False, blank=False, default='')
     stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+        help_text='Current status of the order'
+    )
+    payment_verified = models.BooleanField(
+        default=False,
+        help_text='Indicates if payment has been verified through Stripe webhook'
+    )
+    stock_verified = models.BooleanField(
+        default=False,
+        help_text='Indicates if stock levels were verified for all items'
+    )
+    notes = models.TextField(
+        blank=True,
+        help_text='Additional notes about the order (e.g., verification details)'
+    )
 
     def _generate_order_number(self):
         """
@@ -71,6 +107,51 @@ class Order(models.Model):
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
+
+    def verify_payment(self, stripe_charge):
+        """
+        Verify payment details with Stripe charge
+        """
+        if stripe_charge:
+            verified_amount = round(stripe_charge.amount / 100, 2)
+            if verified_amount == float(self.grand_total):
+                self.payment_verified = True
+                self.status = self.STATUS_PAYMENT_CONFIRMED
+                self.notes = f'{self.notes}\nPayment verified with Stripe on {stripe_charge.created}'
+                self.save()
+                return True
+        return False
+
+    def verify_stock(self):
+        """
+        Verify stock levels for all items in the order
+        """
+        all_in_stock = True
+        for item in self.lineitems.all():
+            if item.quantity > item.product.stock:
+                all_in_stock = False
+                self.notes = f'{self.notes}\nInsufficient stock for {item.product.name}'
+        
+        self.stock_verified = all_in_stock
+        self.save()
+        return all_in_stock
+
+    def process_order(self):
+        """
+        Process the order if payment and stock are verified
+        """
+        if self.payment_verified and self.stock_verified:
+            # Update stock levels
+            for item in self.lineitems.all():
+                product = item.product
+                product.stock -= item.quantity
+                product.save()
+            
+            self.status = self.STATUS_PROCESSING
+            self.notes = f'{self.notes}\nOrder processed and stock updated on {self.date}'
+            self.save()
+            return True
+        return False
 
     def __str__(self):
         return self.order_number
