@@ -8,7 +8,10 @@
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
-var elements = stripe.elements();
+var elements = stripe.elements({
+    locale: 'en',
+    currency: 'eur',
+});
 var style = {
     base: {
         color: '#000',
@@ -24,7 +27,11 @@ var style = {
         iconColor: '#dc3545'
     }
 };
-var card = elements.create('card', {style: style});
+var card = elements.create('card', {
+    style: style,
+    hidePostalCode: true,
+    currency: 'eur',
+});
 card.mount('#card-element');
 
 // Handle realtime validation errors on the card element
