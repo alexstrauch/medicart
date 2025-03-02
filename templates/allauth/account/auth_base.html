@@ -1,14 +1,16 @@
-{% extends "base.html" %}
-
-{% block content %}
+{# Base template for all authentication pages #} {% extends "base.html" %} {#
+Main content block with centered authentication form layout #} {% block content
+%} {# Flexbox container for vertical and horizontal centering #}
 <div class="auth-container d-flex align-items-center justify-content-center">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                {% block auth_content %}
-                {% endblock %}
-            </div>
-        </div>
+  <div class="container py-5">
+    {# Responsive grid for form centering #}
+    <div class="row justify-content-center">
+      {# Form container with responsive widths #}
+      <div class="col-12 col-md-8 col-lg-6">
+        {# Content block for specific auth pages #} {% block auth_content %} {%
+        endblock %}
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
