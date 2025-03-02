@@ -4,11 +4,12 @@
   height: 40px;
   padding: 10px 12px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   background-color: white;
   box-shadow: 0 1px 3px 0 #e6ebf1;
   -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
+  font-size: 16px; /* Prevents zoom on mobile */
 }
 
 .StripeElement--focus,
@@ -22,28 +23,28 @@
 }
 
 .stripe-style-input::placeholder {
-    color: #aab7c4;
+  color: #aab7c4;
 }
 
 .fieldset-label {
-    position: relative;
-    right: .5rem;
+  position: relative;
+  right: 0.5rem;
 }
 
 #payment-form .form-control,
 #card-element {
-    color: #000;
-    border: 1px solid #000;
+  color: #000;
+  border: 1px solid #000;
 }
 
 select,
 select option {
-    color: #000000;
+  color: #000000;
 }
 
 select:invalid,
 select option[value=""] {
-    color: #aab7c4 !important;
+  color: #aab7c4 !important;
 }
 
 #loading-overlay {
@@ -53,7 +54,7 @@ select option[value=""] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(23, 162, 184, .85);
+  background: rgba(23, 162, 184, 0.85);
   z-index: 9999;
 }
 
@@ -63,4 +64,75 @@ select option[value=""] {
   justify-content: center;
   margin: 0;
   height: 100%;
+}
+
+/* Order summary mobile styles */
+@media screen and (max-width: 576px) {
+  .order-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .order-summary-row p {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .order-summary-price {
+    text-align: right;
+  }
+}
+
+/* Improve mobile card element */
+@media screen and (max-width: 576px) {
+  #card-element {
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+/* Button container - Mobile first */
+.checkout-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Button styles - Mobile first */
+.checkout-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 50px;
+  border-radius: 4px;
+}
+
+.checkout-button .icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Tablet and up styles */
+@media screen and (min-width: 768px) {
+  .checkout-button-container {
+    flex-direction: row;
+    justify-content: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .checkout-button {
+    flex: 1;
+    max-width: 250px;
+  }
 }
