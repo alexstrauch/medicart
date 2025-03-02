@@ -19,13 +19,16 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            messages.success(
-                request, 
-                "Registration successful! Welcome to MediCart!"
-                )
-            login(request, user)
-            return redirect('home')
+            user, error = form.try_save(request)
+            if user:
+                messages.success(
+                    request, 
+                    "Registration successful! Welcome to MediCart!"
+                    )
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.error(request, f"Registration failed: {error}")
         else:
             messages.error(
                 request, 
