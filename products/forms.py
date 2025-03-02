@@ -1,10 +1,10 @@
 """
 Forms for the products app.
-Defines forms for product management and review submission.
+Defines forms for product management.
 """
 
 from django import forms
-from .models import Product, Category, Review
+from .models import Product, Category
 
 
 class ProductForm(forms.ModelForm):
@@ -30,28 +30,3 @@ class ProductForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-black rounded-0'
 
-
-class ReviewForm(forms.ModelForm):
-    """
-    Form for submitting product reviews.
-    Includes rating (1-5) and review text fields.
-    """
-    class Meta:
-        model = Review
-        fields = ('rating', 'text',)
-        widgets = {
-            'text': forms.Textarea(attrs={'rows': 4}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        """
-        Initialize form with custom styling and
-        set up rating input constraints.
-        """
-        super().__init__(*args, **kwargs)
-        self.fields['rating'].widget = forms.NumberInput(attrs={
-            'min': '1',
-            'max': '5',
-            'class': 'border-black rounded-0'
-        })
-        self.fields['text'].widget.attrs['class'] = 'border-black rounded-0'
