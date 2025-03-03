@@ -1,20 +1,25 @@
+{# Main footer section with responsive grid layout #}
 <footer class="footer mt-auto py-5">
     <div class="container">
+        {# Responsive grid with 1 column on mobile, 2 on tablet, 4 on desktop #}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            <!-- About Section -->
+            {# About section with company description #}
             <div class="col">
                 <h5 class="text-uppercase mb-4">About MediCart</h5>
                 <p class="text-muted">MediCart is your trusted healthcare e-commerce platform, providing high-quality medical supplies and equipment to healthcare professionals and individuals alike.</p>
             </div>
 
-            <!-- Quick Links -->
+            {# Quick Links navigation section #}
             <div class="col">
                 <h5 class="text-uppercase mb-4">Quick Links</h5>
                 <ul class="list-unstyled">
+                    {# Common navigation links #}
                     <li class="mb-2"><a href="{% url 'home' %}">Home</a></li>
                     <li class="mb-2"><a href="{% url 'products' %}">Products</a></li>
+                    {# Conditional links based on authentication status #}
                     {% if request.user.is_authenticated %}
                         <li class="mb-2"><a href="{% url 'profile' %}">My profile</a></li>
+                        <li class="mb-2"><a href="{% url 'wishlist:view_wishlist' %}">My wishlist</a></li>
                     {% else %}
                         <li class="mb-2"><a href="{% url 'account_login' %}">Login</a></li>
                         <li class="mb-2"><a href="{% url 'account_signup' %}">Register</a></li>
@@ -22,25 +27,27 @@
                 </ul>
             </div>
 
-            <!-- Categories -->
+            {# Product Categories section #}
             <div class="col">
                 <h5 class="text-uppercase mb-4">Categories</h5>
                 <ul class="list-unstyled">
+                    {# Product category links #}
                     <li class="mb-2"><a href="{% url 'products' %}">All products</a></li>
                     <li class="mb-2"><a href="{% url 'products' %}?category=medical_supplies">Medical supplies</a></li>
-                    <li class="mb-2"><a href="{% url 'products' %}?category=equipment">Medical equipment</a></li>
+                    <li class="mb-2"><a href="{% url 'products' %}?category=medical_equipment">Medical equipment</a></li>
                     <li class="mb-2"><a href="{% url 'products' %}?category=personal_care">Personal care</a></li>
                 </ul>
             </div>
 
-            <!-- Newsletter & Social Links -->
+            {# Newsletter and Social Media section #}
             <div class="col">
                 <h5 class="text-uppercase mb-4">Stay connected</h5>
-                <!-- Newsletter Signup -->
+                {# Newsletter signup form #}
                 <div class="newsletter-signup mb-4">
                     <p class="text-muted mb-2">Subscribe for updates!</p>
                     <form action="{% url 'marketing:newsletter_signup' %}" method="POST" class="form mb-3" id="newsletter-form">
                         {% csrf_token %}
+                        {# Newsletter input group with email field and submit button #}
                         <div class="input-group newsletter-input-group">
                             <input type="email" 
                                    name="email" 
@@ -48,15 +55,17 @@
                                    placeholder="Your email address" 
                                    aria-label="Email address for newsletter" 
                                    required>
+                            {# Submit button with loading spinner #}
                             <button class="btn btn-primary newsletter-btn" type="submit" id="newsletter-submit">
                                 <span class="button-text">Subscribe</span>
                                 <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                             </button>
                         </div>
+                        {# Feedback area for form submission results #}
                         <div class="newsletter-feedback mt-2" role="alert" aria-live="polite"></div>
                     </form>
                 </div>
-                <!-- Social Links -->
+                {# Social media links section #}
                 <div class="social-links-container">
                     <div class="social-links" role="navigation" aria-label="Social media links">
                         <a href="https://facebook.com" 
