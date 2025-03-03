@@ -1,21 +1,32 @@
+{# Mobile navigation - only visible on screens smaller than lg #}
 <div class="d-lg-none">
     <div class="container">
         <div class="row">
             <div class="col-12">
+                {# Mobile navbar with hamburger menu #}
                 <nav class="navbar navbar-expand-lg navbar-light">
+                    {# Brand logo/name #}
                     <a class="navbar-brand" href="{% url 'home' %}">MediCart</a>
+                    {# Hamburger menu toggle button #}
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-nav" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     
+                    {# Collapsible navigation menu #}
                     <div class="collapse navbar-collapse" id="mobile-nav">
                         <ul class="navbar-nav">
+                            {# Home link #}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'home' %}">Home</a>
                             </li>
+                            {# User account links - conditional based on authentication #}
                             {% if request.user.is_authenticated %}
+                                {# Authenticated user links #}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'profile' %}">My profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'wishlist:view_wishlist' %}">My wishlist</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'orders' %}">My orders</a>
@@ -23,27 +34,38 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
+                                </li>
                             {% else %}
+                                {# Guest user links #}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
                                 </li>
                             {% endif %}
+                            {# Shopping cart link with item count #}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'view_cart' %}">
                                     <i class="fas fa-shopping-cart"></i>
                                     Cart
+                                    {# Dynamic cart item count #}
                                     {% if cart_items %}
                                         ({{ cart_items|length }})
                                     {% endif %}
                                 </a>
                             </li>
+                            {# Products dropdown menu #}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="mobile-products" data-bs-toggle="dropdown" aria-expanded="false">
                                     Products
                                 </a>
+                                {# Product categories list #}
                                 <ul class="dropdown-menu" aria-labelledby="mobile-products">
                                     <li><a class="dropdown-item" href="{% url 'products' %}">All products</a></li>
                                     <li><a class="dropdown-item" href="{% url 'products' %}?category=medical_supplies">Medical supplies</a></li>
@@ -51,12 +73,14 @@
                                     <li><a class="dropdown-item" href="{% url 'products' %}?category=personal_care">Personal care</a></li>
                                 </ul>
                             </li>
-                            <!-- Search -->
+                            {# Product search form #}
                             <li class="nav-item">
                                 <div class="py-2">
                                     <form method="GET" action="{% url 'products' %}">
                                         <div class="input-group">
+                                            {# Search input field #}
                                             <input class="form-control" type="text" name="q" placeholder="Search products">
+                                            {# Search submit button #}
                                             <button class="btn btn-outline-dark" type="submit">
                                                 <i class="fas fa-search"></i>
                                             </button>
