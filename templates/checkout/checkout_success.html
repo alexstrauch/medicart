@@ -1,17 +1,21 @@
+{# Extend base template and load required template tags #}
 {% extends "base.html" %}
 {% load static %}
 {% load cart_tools %}
 
+{# Additional CSS for checkout success page #}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+    {# Main checkout styles #}
+    <link rel="stylesheet" href="{% static 'static/checkout/css/checkout.css' %}">
     <style>
-        /* Handle long order numbers */
+        /* Handle long order numbers with proper text wrapping */
         .order-number {
             word-break: break-all;
             overflow-wrap: break-word;
             hyphens: auto;
         }
         
+        /* Mobile-specific styles */
         @media (max-width: 767px) {
             .text-md-right {
                 text-align: left !important;
@@ -23,6 +27,7 @@
     </style>
 {% endblock %}
 
+{# Empty header container for spacing #}
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -36,22 +41,28 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <hr>
+                
                 <h2 class="logo-font mb-4">Thank you</h2>
-                <hr>
+                
+                {# Confirmation message with customer email #}
                 <p class="text-black">Your order information is below. A confirmation email will be sent to <strong>{{ order.email }}</strong>.</p>
             </div>
         </div>
 
+        {# Order details section #}
+        {# Order details section #}
         <div class="row">
             <div class="col-12 col-lg-7">
+                {# Order details container #}
                 <div class="order-confirmation-wrapper p-2 border">
+                    {# Order information section header #}
                     <div class="row">
                         <div class="col">
                             <small class="text-muted">Order info:</small>
                         </div>
                     </div>
 
+                    {# Order number display #}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Order number</p>
@@ -61,6 +72,7 @@
                         </div>
                     </div>
 
+                    {# Order date information #}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Order date</p>
@@ -70,25 +82,30 @@
                         </div>
                     </div>
 
+                    {# Order details section header #}
                     <div class="row">
                         <div class="col">
                             <small class="text-muted">Order details:</small>
                         </div>
                     </div>
 
+                    {# Loop through each ordered item #}
                     {% for item in order.lineitems.all %}
                     <div class="row">
                         <div class="col-12 col-md-4">
+                            {# Product name #}
                             <p class="small mb-0 text-black font-weight-bold">
                                 {{ item.product.name }}
                             </p>
                         </div>
                         <div class="col-12 col-md-8 text-md-right">
+                            {# Item quantity and formatted price #}
                             <p class="small mb-0">{{ item.quantity }} @ {{ item.product.price|format_price }} each</p>
                         </div>
                     </div>
                     {% endfor %}
 
+                    {# Delivery address section header #}
                     <div class="row">
                         <div class="col">
                             <small class="text-muted">Delivering to:</small>
@@ -104,6 +121,7 @@
                         </div>
                     </div>
 
+                    {# Primary street address #}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Address 1</p>
@@ -113,6 +131,7 @@
                         </div>
                     </div>
 
+                    {# Optional secondary address #}
                     {% if order.street_address2 %}
                     <div class="row">
                         <div class="col-12 col-md-4">
@@ -144,6 +163,7 @@
                     </div>
                     {% endif %}
 
+                    {# Country information #}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Country</p>
@@ -153,6 +173,7 @@
                         </div>
                     </div>
 
+                    {# Contact phone number #}
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="mb-0 text-black font-weight-bold">Phone number</p>
@@ -204,7 +225,7 @@
                         <span class="icon mr-2">
                             <i class="fas fa-angle-left"></i>
                         </span>
-                        <span class="text-uppercase">Back to Profile</span>
+                        <span class="text-uppercase">Back to profile</span>
                     </a>
                 {% else %}
                     <a href="{% url 'products' %}" class="btn btn-black rounded-0 my-2">
