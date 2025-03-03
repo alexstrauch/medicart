@@ -146,6 +146,7 @@ The MediCart Team"""
 
     def handle_payment_intent_succeeded(self, event):
         print('\nWebhook: handle_payment_intent_succeeded called')
+        print('Processing payment intent...')
         """
         Handle successful payment intent webhooks.
         Creates or updates order when payment succeeds.
@@ -157,13 +158,27 @@ The MediCart Team"""
         """
         intent = event.data.object
         pid = intent.id
-        cart = intent.metadata.cart
-        save_info = intent.metadata.save_info
+        print(f'Payment Intent ID: {pid}')
+        
+        try:
+            cart = intent.metadata.cart
+            print(f'Cart found in metadata: {bool(cart)}')
+            save_info = intent.metadata.save_info
+            print(f'Save info: {save_info}')
+        except AttributeError as e:
+            print(f'Error accessing metadata: {str(e)}')
+            return HttpResponse(content=f'Webhook error: {str(e)}', status=500)
 
         # Get the Charge object
-        stripe_charge = stripe.Charge.retrieve(
-            intent.latest_charge
-        )
+        try:
+            print(f'Retrieving charge for intent: {intent.latest_charge}')
+            stripe_charge = stripe.Charge.retrieve(
+                intent.latest_charge
+            )
+            print('Charge retrieved successfully')
+        except Exception as e:
+            print(f'Error retrieving charge: {str(e)}')
+            return HttpResponse(content=f'Webhook error: {str(e)}', status=500)
 
         billing_details = stripe_charge.billing_details
         shipping_details = intent.shipping

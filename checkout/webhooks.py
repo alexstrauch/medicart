@@ -17,6 +17,11 @@ import stripe
 @require_POST
 @csrf_exempt
 def webhook(request):
+    print('\nWebhook endpoint called')
+    print('Webhook received')
+    print(f'Request method: {request.method}')
+    print(f'Content type: {request.content_type}')
+    print(f'Headers: {dict(request.headers)}')
     """
     Listen for webhooks from Stripe.
     
@@ -28,12 +33,23 @@ def webhook(request):
         HttpResponse: Status code indicating success or failure
     """
     # Setup Stripe API configuration
+    print('Setting up Stripe configuration...')
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
+    print(f'Webhook secret present: {bool(wh_secret)}')
+    print(f'Webhook secret starts with: {wh_secret[:4] if wh_secret else "None"}')
 
     # Get the webhook data and verify its signature
     payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    print(f'Payload size: {len(payload)} bytes')
+    
+    try:
+        sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+        print(f'Signature header found: {sig_header[:10]}...')
+    except KeyError:
+        print('ERROR: Stripe signature header missing')
+        return HttpResponse(status=400)
+    
     event = None
 
     try:
@@ -42,12 +58,15 @@ def webhook(request):
         )
     except ValueError as e:
         # Invalid payload
+        print(f'ValueError: {str(e)}')
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
+        print(f'SignatureVerificationError: {str(e)}')
         return HttpResponse(status=400)
     except Exception as e:
-        return HttpResponse(content=e, status=400)
+        print(f'Unexpected error: {str(e)}')
+        return HttpResponse(content=str(e), status=400)
 
     # Set up a webhook handler
     handler = StripeWH_Handler(request)
