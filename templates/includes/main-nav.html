@@ -1,15 +1,21 @@
+{# Main navigation bar - desktop only (hidden on mobile) #}
 <nav class="navbar navbar-expand-lg d-none d-lg-block" role="navigation" aria-label="Main navigation">
     <div class="container">
+        {# Brand logo/name with home link #}
         <a class="navbar-brand" href="{% url 'home' %}" aria-label="MediCart Home">MediCart</a>
         <div class="collapse navbar-collapse" id="main-nav">
+            {# Primary navigation menu #}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {# Home link #}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
+                {# Products dropdown menu #}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="products-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Products
                     </a>
+                    {# Product category links #}
                     <ul class="dropdown-menu" aria-labelledby="products-dropdown">
                         <li><a class="dropdown-item" href="{% url 'products' %}">All products</a></li>
                         <li><a class="dropdown-item" href="{% url 'products' %}?category=medical_supplies">Medical supplies</a></li>
@@ -17,26 +23,37 @@
                         <li><a class="dropdown-item" href="{% url 'products' %}?category=personal_care">Personal care</a></li>
                     </ul>
                 </li>
+                {# Contact link #}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
+                </li>
             </ul>
             
-            <!-- Desktop Search, Account, Cart -->
+            {# Right-aligned utilities section #}
             <div class="d-flex align-items-center">
+                {# Product search form #}
                 <form method="GET" action="{% url 'products' %}" class="d-flex me-3">
                     <div class="input-group">
+                        {# Search input field #}
                         <input class="form-control" type="text" name="q" placeholder="Search products" aria-label="Search">
+                        {# Search submit button #}
                         <button class="btn btn-outline-dark" type="submit" aria-label="Submit search">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </form>
                 
+                {# User account dropdown menu #}
                 {% if request.user.is_authenticated %}
+                {# Authenticated user options #}
                 <div class="nav-item dropdown me-3">
                     <a class="nav-link dropdown-toggle" href="#" id="user-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user fa-lg"></i>
                     </a>
+                    {# User account management links #}
                     <div class="dropdown-menu border-0" aria-labelledby="user-options">
                         <a href="{% url 'profile' %}" class="dropdown-item">My profile</a>
+                        <a href="{% url 'wishlist:view_wishlist' %}" class="dropdown-item">My wishlist</a>
                         <a href="{% url 'orders' %}" class="dropdown-item">My orders</a>
                         <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
                     </div>
@@ -46,6 +63,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="user-options" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user fa-lg"></i>
                     </a>
+                    {# Authentication links #}
                     <div class="dropdown-menu border-0" aria-labelledby="user-options">
                         <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
                         <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
@@ -53,9 +71,11 @@
                 </div>
                 {% endif %}
                 
+                {# Shopping cart with item count #}
                 <div>
                     <a href="{% url 'view_cart' %}" class="text-dark text-decoration-none">
                         <i class="fas fa-shopping-cart"></i>
+                        {# Dynamic cart item count #}
                         {% if cart_items %}
                             ({{ cart_items|length }})
                         {% else %}
