@@ -1,1 +1,1 @@
-MediCart - Order Confirmation {{ order.order_number }}
+MediCart - Order confirmation {{ order.order_number }}

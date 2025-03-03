@@ -5,11 +5,19 @@ This is a confirmation of your order at MediCart. Your order information is belo
 Order number: {{ order.order_number }}
 Order date: {{ order.date }}
 
-Order total: ${{ order.order_total }}
-Delivery: ${{ order.delivery_cost }}
-Grand total: ${{ order.grand_total }}
+Ordered items:
+{% for item in order.lineitems.all %}
+- {{ item.product.name }} x{{ item.quantity }} (€{{ item.product.price }} each)
+{% endfor %}
 
-Your order will be shipped to {{ order.street_address1 }} in {{ order.town_or_city }}, {{ order.country }}.
+Order total: €{{ order.order_total }}
+Delivery: €{{ order.delivery_cost }}
+Grand total: €{{ order.grand_total }}
+
+Your order will be shipped to:
+{{ order.street_address1 }}{% if order.street_address2 %} {{ order.street_address2 }}{% endif %}
+{{ order.postcode }} {{ order.town_or_city }}
+{{ order.country }}
 
 We've got your phone number on file as {{ order.phone_number }}.
 
@@ -19,4 +27,4 @@ Thank you for your order!
 
 Sincerely,
 
-MediCart Team
+the MediCart team
