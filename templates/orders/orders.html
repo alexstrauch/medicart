@@ -1,16 +1,22 @@
+{# Base template extension #}
 {% extends "base.html" %}
+
+{# Load required template tags #}
 {% load static %}
 {% load cart_tools %}
 
+{# Additional CSS styles block #}
 {% block extra_css %}
     <style>
-        /* Custom styles for mobile view */
+        /* Mobile-specific styles */
         @media (max-width: 767px) {
+            /* Reset table margins for mobile */
             .table-responsive {
                 margin-bottom: 1rem;
                 border: 0;
             }
             
+            /* Card styling for mobile order display */
             .mobile-order-card {
                 margin-bottom: 1rem;
                 border: 1px solid rgba(0,0,0,.125);
@@ -18,28 +24,33 @@
                 padding: 1rem;
             }
 
+            /* Label styling within mobile cards */
             .mobile-order-card .order-label {
                 font-weight: bold;
                 color: #555;
             }
 
+            /* Value styling within mobile cards */
             .mobile-order-card .order-value {
                 margin-bottom: 0.5rem;
             }
 
+            /* Badge positioning in mobile cards */
             .mobile-order-card .badge {
                 margin-top: 0.5rem;
             }
         }
 
-        /* Hide table on mobile, show cards instead */
+        /* Responsive display rules */
         @media (max-width: 767px) {
+            /* Hide table on mobile */
             .desktop-table {
                 display: none;
             }
         }
 
         @media (min-width: 768px) {
+            /* Hide cards on desktop */
             .mobile-cards {
                 display: none;
             }
@@ -47,6 +58,7 @@
     </style>
 {% endblock %}
 
+{# Header container for spacing #}
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -55,9 +67,12 @@
     </div>
 {% endblock %}
 
+{# Main content block #}
 {% block content %}
+    {# Overlay for visual separation #}
     <div class="overlay"></div>
     <div class="container">
+        {# Page title #}
         <div class="row">
             <div class="col">
                 <h2 class="logo-font mb-4">My orders</h2>
@@ -65,10 +80,11 @@
             </div>
         </div>
 
+        {# Orders display section #}
         <div class="row">
             <div class="col-12">
                 {% if orders %}
-                    <!-- Desktop/Tablet View -->
+                    {# Desktop/Tablet View with table layout #}
                     <div class="table-responsive desktop-table">
                         <table class="table table-hover">
                             <thead>
@@ -84,6 +100,7 @@
                                 {% for order in orders %}
                                     <tr>
                                         <td>
+                                            {# Link to detailed order view #}
                                             <a href="{% url 'order_history' order.order_number %}"
                                             class="text-info">
                                                 {{ order.order_number|truncatechars:6 }}
@@ -91,6 +108,7 @@
                                         </td>
                                         <td>{{ order.date }}</td>
                                         <td>
+                                            {# List of items in the order #}
                                             <ul class="list-unstyled">
                                                 {% for item in order.lineitems.all %}
                                                     <li class="small">
@@ -109,10 +127,11 @@
                         </table>
                     </div>
 
-                    <!-- Mobile View -->
+                    {# Mobile View with card layout #}
                     <div class="mobile-cards">
                         {% for order in orders %}
                             <div class="mobile-order-card">
+                                {# Order number with link to details #}
                                 <div class="order-label">Order number:</div>
                                 <div class="order-value">
                                     <a href="{% url 'order_history' order.order_number %}" class="text-info">
@@ -120,9 +139,11 @@
                                     </a>
                                 </div>
 
+                                {# Order date #}
                                 <div class="order-label">Date:</div>
                                 <div class="order-value">{{ order.date }}</div>
 
+                                {# Order items list #}
                                 <div class="order-label">Items:</div>
                                 <div class="order-value">
                                     <ul class="list-unstyled mb-0">
@@ -134,14 +155,17 @@
                                     </ul>
                                 </div>
 
+                                {# Order total #}
                                 <div class="order-label">Total:</div>
                                 <div class="order-value">{{ order.calculated_grand_total|format_price }}</div>
 
+                                {# Order status badge #}
                                 <span class="badge bg-success">Completed</span>
                             </div>
                         {% endfor %}
                     </div>
                 {% else %}
+                    {# Empty state - No orders #}
                     <div class="text-center">
                         <p class="lead mb-4">You haven't placed any orders yet.</p>
                         <a href="{% url 'products' %}" class="btn btn-primary">
