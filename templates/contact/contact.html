@@ -1,0 +1,67 @@
+{# Extends the base template #}
+{% extends "base.html" %}
+
+{# Load static files #}
+{% load static %}
+
+{# Header block for spacing #}
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{# Main content block #}
+{% block content %}
+    {# Semi-transparent overlay #}
+    <div class="overlay"></div>
+    <div class="container">
+        {# Page title section #}
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <h2 class="logo-font mb-4">Contact us</h2>
+                <h5 class="text-muted">We're here to help!</h5>
+            </div>
+        </div>
+
+        {# Contact form section #}
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                {# Contact form with POST method #}
+                <form method="POST" action="{% url 'contact:contact' %}" class="form mb-5">
+                    {% csrf_token %}
+                    
+                    {# Iterate through form fields #}
+                    {% for field in form %}
+                        <div class="form-group mb-3">
+                            {# Field label #}
+                            {{ field.label_tag }}
+                            {# Field input #}
+                            {{ field }}
+                            {# Display help text if available #}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {# Display field errors if any #}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    {# Form buttons #}
+                    <div class="text-right mt-4">
+                        <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Cancel</a>
+                        <button class="btn btn-black rounded-0" type="submit">Send message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

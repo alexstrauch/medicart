@@ -1,0 +1,10 @@
+Hello {{ contact.name }},
+
+Thank you for contacting MediCart! This email confirms that we have received your message regarding "{{ contact.get_subject_display }}".
+
+We will review your inquiry and get back to you as soon as possible. For your records, here is a copy of your message:
+
+{{ contact.message }}
+
+Best regards,
+the MediCart team
