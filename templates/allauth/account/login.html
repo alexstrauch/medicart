@@ -1,18 +1,25 @@
+{# Extend base template and load required template tags #}
 {% extends "base.html" %}
 
+{# Load internationalization and account-specific tags #}
 {% load i18n %}
-{% load account socialaccount %}
+{% load account %}
 
+{# Set page title #}
 {% block head_title %}{% trans "Sign in" %}{% endblock %}
 
+{# Main content block #}
 {% block content %}
+{# Semi-transparent overlay #}
 <div class="overlay"></div>
 <div class="container">
     <div class="row">
+        {# Centered form container #}
         <div class="col-12 col-md-6 offset-md-3">
             <div class="allauth-form-inner-content">
                 <h2 class="logo-font mb-4 text-center">{% trans "Sign in" %}</h2>
 
+                {# Display form validation errors if any #}
                 {% if form.errors %}
                     <div class="alert alert-danger">
                         <strong>Please correct the following errors:</strong>
@@ -23,12 +30,16 @@
                 <p class="text-muted text-center mb-4">{% blocktrans %}If you have not created an account yet, then please
                     <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 
+                {# Login form with email and password fields #}
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}
                     <div class="form-group w-75 mx-auto">
+                        {# Email input field #}
                         <input type="email" name="login" class="form-control mb-3" placeholder="Email address" id="id_login" required>
+                        {# Password input field #}
                         <input type="password" name="password" class="form-control mb-3" placeholder="Password" id="id_password" required>
                         
+                        {# Remember me checkbox #}
                         <div class="custom-checkbox mb-3">
                             <input type="checkbox" name="remember" class="form-check-input" id="id_remember">
                             <label class="form-check-label" for="id_remember">Remember me</label>
@@ -39,6 +50,7 @@
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
 
+                    {# Form submission and password reset link #}
                     <div class="text-center">
                         <button class="btn btn-black rounded-0" type="submit">{% trans "Sign in" %}</button>
                         <p class="mt-2">
