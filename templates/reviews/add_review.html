@@ -1,0 +1,52 @@
+{# Base template extension #}
+{% extends "base.html" %}
+
+{# Load required static files #}
+{% load static %}
+
+{# Header container for spacing #}
+{% block page_header %}
+    <div class="container header-container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{# Main content block #}
+{% block content %}
+    {# Overlay for visual separation #}
+    <div class="overlay"></div>
+    <div class="container">
+        {# Page title section #}
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                {# Dynamic title based on whether editing or adding #}
+                <h2 class="logo-font mb-4">{% if existing_review %}Edit{% else %}Add{% endif %} review</h2>
+                {# Product name being reviewed #}
+                <h5>{{ product.name }}</h5>
+            </div>
+        </div>
+
+        {# Review form section #}
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                {# Form posting to add_review URL with product ID #}
+                <form method="POST" action="{% url 'reviews:add_review' product.id %}">
+                    {% csrf_token %}
+                    {# Render form using crispy forms #}
+                    {{ form|crispy }}
+                    {# Form buttons #}
+                    <div class="text-right mt-4">
+                        {# Cancel button returns to product detail #}
+                        <a class="btn btn-outline-black rounded-0" href="{% url 'product_detail' product.id %}">Cancel</a>
+                        {# Submit button text changes based on context #}
+                        <button class="btn btn-black rounded-0" type="submit">
+                            {% if existing_review %}Update{% else %}Add{% endif %} review
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
