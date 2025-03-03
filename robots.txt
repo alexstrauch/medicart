@@ -2,15 +2,19 @@ User-agent: *
 Allow: /
 Allow: /products/
 Allow: /categories/
+Allow: /contact/
 
-# Prevent access to admin, accounts, and checkout
+# Prevent access to personal and transactional pages
 Disallow: /admin/
 Disallow: /accounts/
 Disallow: /checkout/
 Disallow: /profile/
 Disallow: /cart/
+Disallow: /wishlist/
 
-# Prevent indexing of search results and API endpoints
+# Prevent access to form submissions and dynamic content
+Disallow: /reviews/add/
+Disallow: /contact/submit/
 Disallow: /search/
 Disallow: /api/
 
