@@ -184,6 +184,12 @@ The MediCart platform caters to several key user groups:
 
 - As a user, I want to receive clear notifications when errors occur.
 
+- As a customer, I want to read and write product reviews.
+
+- As a customer, I want to save items for future purchase.
+
+- As a customer, I want to be able to contact the store with questions or concerns so that I can get assistance with my inquiries and receive timely responses.
+
 #### Site owner
 
 - As an admin, I want to manage the product inventory.
