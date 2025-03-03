@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load account socialaccount %}
+{% load account %}
 
 {% block head_title %}{% trans "Sign up" %}{% endblock %}
 
+{# Main content block #}
 {% block content %}
+{# Semi-transparent overlay #}
 <div class="overlay"></div>
 <div class="container">
     <div class="row">
+        {# Centered signup form container #}
         <div class="col-12 col-md-6 offset-md-3">
             <div class="allauth-form-inner-content">
                 <h2 class="logo-font mb-4 text-center">{% trans "Sign up" %}</h2>
@@ -22,29 +25,58 @@
 
                 <p class="text-muted text-center mb-4">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
+                {# Registration form #}
                 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    {# Form fields container #}
+                    <div class="form-group w-75 mx-auto">
+                        <div class="mb-3">
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="invalid-feedback d-block">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="invalid-feedback d-block">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password1.errors }}</div>
+                            {% endif %}
+                            {% if form.password1.help_text %}
+                                <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback d-block">{{ form.password2.errors }}</div>
+                            {% endif %}
+                            {% if form.password2.help_text %}
+                                <small class="form-text text-muted">{{ form.password2.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
 
-                    <div class="text-center mt-4">
+                    <div class="text-center">
                         <button class="btn btn-black rounded-0" type="submit">{% trans "Sign up" %}</button>
                     </div>
                 </form>
 
-                {% get_providers as socialaccount_providers %}
-                {% if socialaccount_providers %}
-                <div class="text-center mt-4">
-                    <p class="text-muted">Or sign up with:</p>
-                    <div class="socialaccount_ballot">
-                        <ul class="socialaccount_providers list-unstyled">
-                            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                        </ul>
-                    </div>
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
