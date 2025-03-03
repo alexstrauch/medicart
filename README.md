@@ -358,11 +358,9 @@ The MediCart platform caters to several key user groups:
 
 ## Future features
 
-- Product reviews & comparison
+- Product comparison
 
 - Guest checkout
-
-- Save for later with wishlist
 
 - Order tracking
 
