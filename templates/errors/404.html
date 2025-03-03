@@ -1,8 +1,11 @@
+{# Extend base template and load static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Additional CSS styles for error page #}
 {% block extra_css %}
 <style>
+    /* Full-height centered error page container */
     .error-page {
         min-height: calc(100vh - 200px);
         display: flex;
@@ -15,11 +18,13 @@
         overflow-x: hidden;
     }
     
+    /* Content wrapper with max width for readability */
     .error-page .content-wrapper {
         max-width: 600px;
         margin: 0 auto;
     }
     
+    /* Large responsive error code display */
     .error-page .display-1 {
         font-size: clamp(4rem, 10vw, 6rem);
         font-weight: 700;
@@ -27,18 +32,21 @@
         margin-bottom: 1rem;
     }
     
+    /* Error message heading */
     .error-page h2 {
         color: var(--text-color);
         font-weight: 600;
         font-size: clamp(1.5rem, 4vw, 2rem);
     }
     
+    /* Error description text */
     .error-page .lead {
         color: var(--text-color);
         opacity: 0.8;
         font-size: clamp(1rem, 3vw, 1.25rem);
     }
 
+    /* Responsive padding adjustment */
     @media (min-width: 768px) {
         .error-page {
             padding: 2rem;
