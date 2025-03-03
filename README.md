@@ -347,6 +347,32 @@ The MediCart platform caters to several key user groups:
 - Category management
 - Stock level monitoring
 
+### Wishlist
+
+- Save products for future purchase
+- Persistent across sessions
+- Remove items from wishlist
+- Visual heart icon indicator
+- One wishlist per user
+
+### Reviews
+
+- Star rating system (1-5)
+- Written review comments
+- Review moderation system
+- One review per product per user
+- Display average product rating
+- Review date tracking
+
+### Contact
+
+- User-friendly contact form
+- Subject categorization
+- Auto-fill for logged-in users
+- Email notifications
+- Status tracking for inquiries
+- Admin response management
+
 ### Additional features
 
 - Responsive design for all screen sizes
