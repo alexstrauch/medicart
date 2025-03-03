@@ -1,6 +1,8 @@
+{# Extend base template and load static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Product-specific meta tags for SEO #}
 {% block extra_meta %}
     <meta name="title" content="{{ product.name }} | MediCart">
     <meta name="description" content="{{ product.description|truncatechars:160 }}">
@@ -16,9 +18,15 @@
 {% endblock %}
 
 {% block content %}
+    {# Toast container for wishlist messages #}
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    </div>
+    
+    {# Semi-transparent overlay #}
     <div class="overlay"></div>
     <div class="container-fluid">
         <div class="row">
+            {# Product image section - responsive layout #}
             <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
                 <div class="image-container my-5" role="img" aria-label="Product image for {{ product.name }}">
                     {% if product.image %}
@@ -28,9 +36,18 @@
                     {% endif %}
                 </div>
             </div>
+            {# Product details section #}
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="product-details-container mb-5 mt-md-5">
-                    <h1 class="mb-0">{{ product.name }}</h1>
+                    {# Product name and category #}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="mb-0">{{ product.name }}</h1>
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'wishlist:toggle_wishlist' product.id %}" class="wishlist-toggle" title="{% if in_wishlist %}Remove from{% else %}Add to{% endif %} wishlist">
+                                <i class="fas fa-heart {% if in_wishlist %}text-danger{% else %}text-muted{% endif %} fa-lg"></i>
+                            </a>
+                        {% endif %}
+                    </div>
                     {% if product.category %}
                         <p class="small mt-1 mb-0">
                             <a class="text-muted" href="{% url 'products' %}?category={{ product.category.name }}" aria-label="View all {{ product.category.friendly_name }}">
@@ -38,6 +55,29 @@
                             </a>
                         </p>
                     {% endif %}
+                    
+                    {# Product rating display #}
+                    <div class="mt-2">
+                        {% if product.rating %}
+                            <div class="d-flex align-items-center">
+                                <div class="h4 mb-0 mr-2">{{ product.rating }}</div>
+                                <div>
+                                    {% for i in '12345'|make_list %}
+                                        {% if forloop.counter <= product.rating %}
+                                            <i class="fas fa-star text-warning"></i>
+                                        {% elif forloop.counter <= product.rating|add:"0.5" %}
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        {% else %}
+                                            <i class="far fa-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <small class="text-muted ml-2">({{ product.reviews.count }} review{% if product.reviews.count != 1 %}s{% endif %})</small>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-0">No reviews yet</p>
+                        {% endif %}
+                    </div>
                     {% if product.description %}
                         <p class="mt-3 mb-4 description">{{ product.description }}</p>
                     {% endif %}
@@ -83,10 +123,108 @@
                 </div>
             </div>
         </div>
+
+        {# Reviews section #}
+        <div class="row mt-5">
+            <div class="col-12 col-lg-8 offset-lg-2">
+                <h2 class="mb-4">Reviews</h2>
+                
+                {% if request.user.is_authenticated %}
+                    <div class="mb-4">
+                        <a href="{% url 'reviews:add_review' product.id %}" class="btn btn-primary">
+                            {% if user_review %}Edit your review{% else %}Write a review{% endif %}
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% if product.reviews.all %}
+                    {% for review in product.reviews.all %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title">{{ review.user.get_full_name|default:review.user.email }}</h5>
+                                    <div class="text-muted">
+                                        <small>{{ review.created_at|date:"F d, Y" }}</small>
+                                        {% if review.user == request.user %}
+                                            <a href="{% url 'reviews:delete_review' review.id %}" class="text-danger ml-2" 
+                                               onclick="return confirm('Are you sure you want to delete your review?');">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    {% for i in '12345'|make_list %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fas fa-star text-warning"></i>
+                                        {% else %}
+                                            <i class="far fa-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p class="card-text">{{ review.review_text }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No reviews yet. {% if request.user.is_authenticated %}Be the first to review this product!{% endif %}</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
+
+<script type="text/javascript">
+    // Handle wishlist toggle
+    $('.wishlist-toggle').click(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var heartIcon = $(this).find('i');
+        var link = $(this);
+        var productName = '{{ product.name }}';
+        
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(response) {
+                if (response.in_wishlist) {
+                    heartIcon.removeClass('text-muted').addClass('text-danger');
+                    link.attr('title', 'Remove from wishlist');
+                    // Show success message
+                    var message = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                        <div class="toast-header">
+                            <strong class="me-auto">Wishlist</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${productName} added to your wishlist
+                        </div>
+                    </div>`;
+                } else {
+                    heartIcon.removeClass('text-danger').addClass('text-muted');
+                    link.attr('title', 'Add to wishlist');
+                    // Show remove message
+                    var message = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                        <div class="toast-header">
+                            <strong class="me-auto">Wishlist</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${productName} removed from your wishlist
+                        </div>
+                    </div>`;
+                }
+                
+                // Add and show the toast
+                $('.toast-container').html(message);
+                $('.toast').toast('show');
+            }
+        });
+    });
+</script>
 {% endblock %}
