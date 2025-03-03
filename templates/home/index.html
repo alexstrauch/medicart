@@ -1,15 +1,18 @@
+{# Extend base template and load static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Page-specific styles for landing page #}
 {% block extra_css %}
 <style>
+    /* Main landing section - full viewport height minus header/footer */
     .landing-content {
         min-height: calc(100vh - 450px);
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: white;
-        margin-top: -76px;
+        margin-top: -76px; /* Compensate for fixed header */
         padding-top: 76px;
     }
 
