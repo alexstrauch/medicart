@@ -1,0 +1,115 @@
+{# Extend base template and load required static files #}
+{% extends "base.html" %}
+{% load static %}
+
+{# Header section - provides spacing and structure #}
+{% block page_header %}
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{# Semi-transparent overlay for visual depth #}
+<div class="overlay"></div>
+
+{# Main container for wishlist content #}
+<div class="container">
+    {# Page title section #}
+    <div class="row">
+        <div class="col">
+            <h2 class="logo-font mb-4">My wishlist</h2>
+        </div>
+    </div>
+
+    {# Wishlist items display section #}
+    <div class="row">
+        <div class="col">
+            {% if wishlist_items %}
+                {# Grid layout for wishlist items #}
+                <div class="row">
+                    {% for item in wishlist_items %}
+                        {# Responsive column sizes for different screen widths #}
+                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                            {# Product card #}
+                            <div class="card h-100 border-0">
+                                {# Product image section #}
+                                {% if item.product.image %}
+                                    <a href="{% url 'product_detail' item.product.id %}">
+                                        <img class="card-img-top img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                    </a>
+                                {% else %}
+                                    {# Fallback image if no product image exists #}
+                                    <a href="{% url 'product_detail' item.product.id %}">
+                                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                                    </a>
+                                {% endif %}
+
+                                {# Product name section #}
+                                <div class="card-body pb-0">
+                                    <p class="mb-0">{{ item.product.name }}</p>
+                                </div>
+
+                                {# Product details footer #}
+                                <div class="card-footer bg-white pt-0 border-0 text-left">
+                                    <div class="row">
+                                        <div class="col">
+                                            {# Price display #}
+                                            <p class="lead mb-0 text-left font-weight-bold">€{{ item.product.price }}</p>
+
+                                            {# Rating display #}
+                                            {% if item.product.rating %}
+                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ item.product.rating }} / 5</small>
+                                            {% else %}
+                                                <small class="text-muted">No rating</small>
+                                            {% endif %}
+
+                                            {# Remove from wishlist button #}
+                                            <a href="{% url 'wishlist:toggle_wishlist' item.product.id %}" class="remove-item text-danger float-right" title="Remove from Wishlist">
+                                                <i class="fas fa-heart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {# Empty wishlist message and call-to-action #}
+                <p class="lead mb-5">Your wishlist is empty.</p>
+                <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                    <span class="icon">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                    <span class="text-uppercase">Keep Shopping</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{# JavaScript section #}
+{% block postloadjs %}
+{{ block.super }}
+<script type="text/javascript">
+    // Handle wishlist item removal via AJAX
+    // Prevents page reload when removing items from wishlist
+    $('.remove-item').click(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            success: function(response) {
+                // Reload page to reflect changes
+                location.reload();
+            }
+        });
+    });
+</script>
+{% endblock %}
