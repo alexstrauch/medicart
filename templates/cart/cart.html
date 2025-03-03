@@ -1,3 +1,4 @@
+{# Extend base template and load required static files and custom template tags #}
 {% extends "base.html" %}
 {% load static %}
 {% load cart_tools %}
@@ -10,9 +11,12 @@
     </div>
 {% endblock %}
 
+{# Main content block #}
 {% block content %}
+    {# Semi-transparent overlay #}
     <div class="overlay"></div>
     <div class="container mb-2">
+        {# Page title #}
         <div class="row">
             <div class="col">
                 <h1 class="logo-font mb-4">Shopping cart</h1>
@@ -22,6 +26,7 @@
         <div class="row">
             <div class="col">
                 {% if cart_items %}
+                    {# Desktop view - responsive table layout #}
                     <div class="table-responsive rounded d-none d-md-block">
                         <table class="table table-sm table-borderless cart-table">
                             <thead class="text-black">
@@ -92,7 +97,7 @@
                         </table>
                     </div>
 
-                    <!-- Mobile view -->
+                    {# Mobile view - card-based layout #}
                     <div class="d-md-none">
                         {% for item in cart_items %}
                             <div class="cart-mobile-item">
@@ -187,7 +192,7 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+{# Modal for confirming item deletion #}
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
