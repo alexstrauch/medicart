@@ -72,6 +72,7 @@
 MediCart is a comprehensive e-commerce platform specializing in healthcare products and medical supplies. Built with Django and integrated with Stripe for secure payments, the platform offers a user-friendly interface for both healthcare professionals and individual consumers to purchase medical supplies, equipment, and personal care items.
 
 Key features:
+
 - Intuitive product catalog with categorized medical supplies
 - Secure user authentication and profile management
 - Real-time shopping cart functionality
@@ -99,12 +100,14 @@ MediCart addresses the growing need for a reliable, user-friendly platform where
 The MediCart platform caters to several key user groups:
 
 1. Healthcare professionals
+
    - Doctors and nurses in private practice
    - Medical clinic staff
    - Hospital department managers
    - Healthcare facility administrators
 
 2. Healthcare facilities
+
    - Private medical clinics
    - Dental practices
    - Physiotherapy centers
@@ -112,12 +115,14 @@ The MediCart platform caters to several key user groups:
    - Diagnostic centers
 
 3. Individual consumers
+
    - Patients with chronic conditions requiring regular supplies
    - Caregivers and family members managing medical needs
    - Health-conscious individuals seeking medical supplies
    - Home healthcare providers
 
 4. Medical students and educators
+
    - Medical schools and training institutions
    - Healthcare education providers
    - Clinical skills labs
@@ -129,27 +134,27 @@ The MediCart platform caters to several key user groups:
 
 ### User goals
 
-  - Convenient access to medical supplies: Users want a hassle-free experience to browse, compare, and purchase a wide range of healthcare products and medical supplies from a single platform without visiting multiple stores.
+- Convenient access to medical supplies: Users want a hassle-free experience to browse, compare, and purchase a wide range of healthcare products and medical supplies from a single platform without visiting multiple stores.
 
-  - Secure and seamless transactions: Ensuring that all financial transactions are secure, users aim to make payments quickly and safely through trusted payment gateways like Stripe.
+- Secure and seamless transactions: Ensuring that all financial transactions are secure, users aim to make payments quickly and safely through trusted payment gateways like Stripe.
 
-  - Efficient order management: Users expect an intuitive interface for tracking orders, managing returns, and accessing their purchase history to streamline their healthcare supply management.
+- Efficient order management: Users expect an intuitive interface for tracking orders, managing returns, and accessing their purchase history to streamline their healthcare supply management.
 
-  - Customized user experience: Healthcare professionals and individual consumers seek tailored recommendations, relevant product categories, and personalized interfaces to meet their specific needs efficiently.
+- Customized user experience: Healthcare professionals and individual consumers seek tailored recommendations, relevant product categories, and personalized interfaces to meet their specific needs efficiently.
 
-  - Reliable customer support: Users look for accessible customer service to assist with inquiries, resolve issues promptly, and provide support throughout their shopping experience on the platform.
+- Reliable customer support: Users look for accessible customer service to assist with inquiries, resolve issues promptly, and provide support throughout their shopping experience on the platform.
 
 ### User expectations
 
-  - User-friendly interface: Users expect a clean, intuitive, and easy-to-navigate interface that allows them to find products quickly, with clear categorization and search functionality.
+- User-friendly interface: Users expect a clean, intuitive, and easy-to-navigate interface that allows them to find products quickly, with clear categorization and search functionality.
 
-  - Wide range of products: Users anticipate a comprehensive selection of healthcare products and medical supplies, covering everything from basic personal care items to specialized medical equipment.
+- Wide range of products: Users anticipate a comprehensive selection of healthcare products and medical supplies, covering everything from basic personal care items to specialized medical equipment.
 
-  - Fast and secure checkout: Users expect a streamlined checkout process with multiple payment options, including secure transactions through Stripe, and minimal friction during the purchase.
+- Fast and secure checkout: Users expect a streamlined checkout process with multiple payment options, including secure transactions through Stripe, and minimal friction during the purchase.
 
-  - Accurate product information: Users look for detailed and accurate product descriptions, including specifications, usage instructions, and reviews, to make informed purchasing decisions.
+- Accurate product information: Users look for detailed and accurate product descriptions, including specifications, usage instructions, and reviews, to make informed purchasing decisions.
 
-  - Timely delivery and updates: Users expect prompt shipping with regular updates on the status of their orders, including estimated delivery times and tracking information.
+- Timely delivery and updates: Users expect prompt shipping with regular updates on the status of their orders, including estimated delivery times and tracking information.
 
 ### User stories
 
@@ -238,6 +243,7 @@ The MediCart platform caters to several key user groups:
 ### Fonts
 
 - **Poppins**: Main body text
+
   - Clean and modern sans-serif font
   - Excellent readability across different screen sizes
   - Used for general content, descriptions, and form elements
@@ -374,19 +380,28 @@ The MediCart platform caters to several key user groups:
 
 ## Database
 
+## Database
+
 ```mermaid
 erDiagram
     User ||--o{ UserProfile : has
     User ||--o{ Order : places
     User ||--o{ Address : has
+    User ||--o{ Review : writes
+    User ||--o{ ContactRequest : submits
+    User ||--|| Wishlist : has
+    User ||--o{ NewsletterSubscription : subscribes
     UserProfile ||--o{ Address : contains
     Product ||--o{ OrderItem : contains
     Product ||--o{ CartItem : contains
+    Product ||--o{ Review : receives
+    Product ||--o{ WishlistItem : saved_in
     Product }|--|| Category : belongs_to
     Order ||--|{ OrderItem : contains
     Order ||--|| Address : ships_to
     Cart ||--|{ CartItem : contains
     Cart ||--|| User : belongs_to
+    Wishlist ||--|{ WishlistItem : contains
 
     User {
         int id PK
@@ -401,6 +416,8 @@ erDiagram
     UserProfile {
         int id PK
         int user_id FK
+        string first_name
+        string last_name
         string phone_number
         boolean newsletter_subscribed
         datetime created_at
@@ -424,34 +441,43 @@ erDiagram
         int id PK
         int category_id FK
         string name
-        string sku
+        string brand
+        string slug
         text description
         decimal price
-        int stock_quantity
-        string image_url
-        boolean active
+        int stock
+        string sku
+        string image
+        float avg_rating
+        boolean is_active
         datetime created_at
         datetime updated_at
     }
+
+
 
     Category {
         int id PK
         string name
         string slug
         text description
-        boolean active
+        boolean is_active
+        datetime created_at
+        datetime updated_at
     }
 
     Order {
         int id PK
         int user_id FK
-        int shipping_address_id FK
+        int address_id FK
         string order_number
-        decimal total_amount
+        decimal total
+        decimal delivery_cost
+        decimal grand_total
         string status
-        decimal shipping_cost
         string payment_status
         string shipping_method
+        string stripe_pid
         datetime created_at
         datetime updated_at
     }
@@ -460,14 +486,62 @@ erDiagram
         int id PK
         int order_id FK
         int product_id FK
+        string product_name
+        decimal price
         int quantity
-        decimal price_at_time
-        decimal subtotal
+        decimal line_total
+        datetime created_at
+    }
+
+    Review {
+        int id PK
+        int user_id FK
+        int product_id FK
+        string title
+        int rating
+        text comment
+        boolean is_approved
+        datetime created_at
+        datetime updated_at
+    }
+
+    ContactRequest {
+        int id PK
+        int user_id FK
+        string email
+        string subject
+        text message
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    Wishlist {
+        int id PK
+        int user_id FK
+        datetime created_at
+    }
+
+    WishlistItem {
+        int id PK
+        int wishlist_id FK
+        int product_id FK
+        datetime added_at
+    }
+
+    NewsletterSubscription {
+        int id PK
+        int user_id FK
+        string email
+        boolean is_active
+        datetime subscribed_at
+        datetime unsubscribed_at
     }
 
     Cart {
         int id PK
         int user_id FK
+        decimal total
         datetime created_at
         datetime updated_at
     }
@@ -477,44 +551,109 @@ erDiagram
         int cart_id FK
         int product_id FK
         int quantity
+        decimal price
+        decimal line_total
         datetime added_at
         datetime updated_at
     }
 ```
+
 ### Table descriptions
 
 #### User
+
 - Core user table for authentication and basic user information
-- Handles login credentials and account status
+- Email and password required for login
+- Staff flag controls admin access
+- Tracks account status and last login
 
 #### UserProfile
-- Extended user information
+
+- Extended user information including name and contact details
+- One profile per user (1:1 relationship)
+- Newsletter preference tracked here
+- Phone number stored in E.164 format
 
 #### Address
-- Stores shipping and billing address
+
+- Full international address format
 
 #### Product
-- Main product information
+
+- Complete product details including brand and SKU
+- Stock levels actively managed
+- Average rating calculated from reviews
+- SEO-friendly slugs for URLs
 
 #### Category
-- Product categorization
-- Uses slugs for SEO-friendly URLs
+
+- Hierarchical product organization
+- Active/inactive status for seasonal categories
+- SEO-friendly slugs for URLs
+- Created/updated timestamps for auditing
 
 #### Order
-- Contains order status and payment information
+
+- Full order lifecycle tracking
+- Multiple status fields: order status, payment status, shipping
+- Links to shipping address and payment info
+- Calculates delivery and grand totals
 
 #### OrderItem
-- Individual items within an order
-- Stores price at time of purchase
+
+- Captures product details at time of purchase
+- Stores individual and line total prices
+- Quantity and product reference maintained
+- Created timestamp for order history
 
 #### Cart
-- Shopping cart header
-- Links to current user session
+
+- One active cart per user
+- Maintains running total of items
+- Timestamps for abandonment tracking
+- Session-based for guest users
 
 #### CartItem
-- Individual items in shopping cart
-- Tracks quantity and when items were added
 
+- Stores current product price
+- Calculates line totals automatically
+- Tracks quantity changes
+- Records when items were added
+
+#### Review
+
+- Rating system (1-5 stars)
+- Moderation through approval flag
+- Title and detailed comment fields
+- One review per product per user
+
+#### ContactRequest
+
+- Handles both user and guest inquiries
+- Email required for guest submissions
+- Status tracking for support workflow
+- Timestamps for response time monitoring
+
+#### Wishlist
+
+- One wishlist per user enforced
+- Persistent across sessions
+- Creation date for analytics
+- Easy add-to-cart functionality
+
+#### WishlistItem
+
+- Links products to user's wishlist
+- Tracks when items were added
+- No quantity tracking needed
+- Allows duplicate removal
+
+#### NewsletterSubscription
+
+- Handles both user and guest subscriptions
+- Active flag for subscription status
+- Tracks subscribe/unsubscribe dates
+- GDPR compliance support
 
 [Back to table of contents](#table-of-contents)
 
@@ -594,7 +733,6 @@ Additional tools and services
 
 ## [Project board](https://github.com/users/alexstrauch/projects/3) (click me)
 
-
 [Back to table of contents](#table-of-contents)
 
 ## Marketing
@@ -637,16 +775,19 @@ Revenue model
 Core business intent
 
 1. **Accessibility**
+
    - Make medical supplies easily accessible to the public
    - Provide a user-friendly platform for healthcare product procurement
    - Offer competitive pricing through direct supplier relationships
 
 2. **Quality assurance**
+
    - Partner with reputable medical supply manufacturers
    - Implement strict quality control measures
    - Maintain proper storage and handling standards
 
 3. **Customer education**
+
    - Provide detailed product information
    - Offer usage guidelines and recommendations
    - Share healthcare-related content and updates
@@ -661,6 +802,7 @@ Marketing strategies
 Digital Marketing
 
 1. **Email marketing**
+
    - Mailchimp newsletter integration
    - Segmented email campaigns
    - Personalized product recommendations
@@ -669,6 +811,7 @@ Digital Marketing
    - Abandoned cart recovery emails
 
 2. **Social media**
+
    - Facebook business page
      - Regular product updates
      - Health tips and advice
@@ -678,6 +821,7 @@ Digital Marketing
      - Special offers and promotions
 
 3. **Content marketing**
+
    - Health and wellness blog
    - Product usage guides
    - Educational content
@@ -693,12 +837,14 @@ Digital Marketing
 Customer retention
 
 1. **Loyalty program**
+
    - Points system for purchases
    - Member-only discounts
    - Early access to new products
    - Referral rewards
 
 2. **Professional partnerships**
+
    - Healthcare provider discounts
    - Bulk purchase programs
    - Professional account benefits
@@ -712,6 +858,7 @@ Customer retention
 Marketing channels
 
 1. **Primary channels**
+
    - Website/E-commerce Platform
    - Email Marketing (Mailchimp)
    - Facebook Business Page
@@ -722,15 +869,16 @@ Marketing channels
    - Healthcare industry events
    - Local medical practices
 
-
 Future marketing plans
 
 1. **Platform expansion**
+
    - Mobile app development
    - Additional social media platforms
    - Healthcare professional network
 
 2. **Content development**
+
    - Video product guides
    - Expert webinars
    - Healthcare podcasts
@@ -753,70 +901,71 @@ This outlines the testing procedures and results for each user story in the Medi
 
 ## Epic 1: User authentication & profile management
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 1.1 User registration | 1. Navigate to registration page<br>2. Enter email and password<br>3. Submit registration form<br>4. Check email for verification<br>5. Click verification link | - Form submits successfully<br>- Verification email received<br>- Account created after verification<br>- Welcome email received | ✅ |
-| 1.2 User login | 1. Navigate to login page<br>2. Enter credentials<br>3. Test password reset | - Successful login<br>- Password reset email received | ✅ |
-| 1.3 Profile management | 1. Access profile settings<br>2. Update personal information<br>3. Add shipping address<br>4. View order history | - Information updates saved<br>- Order history displayed correctly | ✅ |
+| User story             | Testing steps                                                                                                                                                   | Expected result                                                                                                                  | Status |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 1.1 User registration  | 1. Navigate to registration page<br>2. Enter email and password<br>3. Submit registration form<br>4. Check email for verification<br>5. Click verification link | - Form submits successfully<br>- Verification email received<br>- Account created after verification<br>- Welcome email received | ✅     |
+| 1.2 User login         | 1. Navigate to login page<br>2. Enter credentials<br>3. Test password reset                                                                                     | - Successful login<br>- Password reset email received                                                                            | ✅     |
+| 1.3 Profile management | 1. Access profile settings<br>2. Update personal information<br>3. Add shipping address<br>4. View order history                                                | - Information updates saved<br>- Order history displayed correctly                                                               | ✅     |
 
 ## Epic 2: Product management
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 2.1 Product browsing | 1. Browse product categories<br>2. Apply filters<br>3. Test sorting options<br>4. Use search function | - Products display in grid<br>- Filters work correctly<br>- Sorting updates display<br>- Search returns relevant results | ✅ |
-| 2.2 Product details | 1. Click product card<br>2. View images and description<br>3. Check price and availability<br>4. Test "Add to Cart" | - Details page loads correctly<br>- Images display properly<br>- Product info is clear<br>- Add to cart works | ✅ |
-| 2.3 Product reviews | 1. Submit product review<br>2. Rate product<br>3. View other reviews<br>4. Check verified purchase badge | - Review submission works<br>- Rating system functions<br>- Reviews display correctly<br>- Badges show properly | ⏳|
-| 2.4 Product comparison | 1. Select products to compare<br>2. View comparison table<br>3. Test sharing function | - Comparison table displays<br>- Features compared correctly<br>- Sharing works | ⏳ |
-| 2.5 Real-time search | 1. Type in search box<br>2. Check dropdown results<br>3. Test on mobile devices | - Results appear while typing<br>- Dropdown is responsive<br>- Works on all devices | ⏳|
+| User story             | Testing steps                                                                                                       | Expected result                                                                                                          | Status |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
+| 2.1 Product browsing   | 1. Browse product categories<br>2. Apply filters<br>3. Test sorting options<br>4. Use search function               | - Products display in grid<br>- Filters work correctly<br>- Sorting updates display<br>- Search returns relevant results | ✅     |
+| 2.2 Product details    | 1. Click product card<br>2. View images and description<br>3. Check price and availability<br>4. Test "Add to Cart" | - Details page loads correctly<br>- Images display properly<br>- Product info is clear<br>- Add to cart works            | ✅     |
+| 2.3 Product reviews    | 1. Submit product review<br>2. Rate product<br>3. View other reviews<br>4. Check verified purchase badge            | - Review submission works<br>- Rating system functions<br>- Reviews display correctly<br>- Badges show properly          | ⏳     |
+| 2.4 Product comparison | 1. Select products to compare<br>2. View comparison table<br>3. Test sharing function                               | - Comparison table displays<br>- Features compared correctly<br>- Sharing works                                          | ⏳     |
+| 2.5 Real-time search   | 1. Type in search box<br>2. Check dropdown results<br>3. Test on mobile devices                                     | - Results appear while typing<br>- Dropdown is responsive<br>- Works on all devices                                      | ⏳     |
 
 ## Epic 3: Shopping cart & checkout
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 3.1 Shopping cart management | 1. Add items to cart<br>2. Update quantities<br>3. Remove items<br>4. Check cart persistence | - Items add/remove correctly<br>- Quantities update<br>- Totals calculate properly<br>- Cart saves between sessions | ✅ |
-| 3.2 Checkout process | 1. Proceed to checkout<br>2. Select shipping address<br>3. Enter payment info<br>4. Complete purchase | - Checkout flow works<br>- Payment processes<br>- Order confirms<br>- Email received | ✅ |
-| 3.3 Guest checkout | 1. Checkout as guest<br>2. Enter email<br>3. Complete purchase<br>4. Check order tracking | - Guest checkout works<br>- Order processes<br>- Tracking available<br>- Account creation offered | ✅ |
-| 3.4 Save for Later | 1. Move items to wishlist<br>2. Check price notifications<br>3. Move back to cart | - Items save to wishlist<br>- Notifications work<br>- Cart/wishlist movement works | ⏳|
+| User story                   | Testing steps                                                                                         | Expected result                                                                                                     | Status |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------ |
+| 3.1 Shopping cart management | 1. Add items to cart<br>2. Update quantities<br>3. Remove items<br>4. Check cart persistence          | - Items add/remove correctly<br>- Quantities update<br>- Totals calculate properly<br>- Cart saves between sessions | ✅     |
+| 3.2 Checkout process         | 1. Proceed to checkout<br>2. Select shipping address<br>3. Enter payment info<br>4. Complete purchase | - Checkout flow works<br>- Payment processes<br>- Order confirms<br>- Email received                                | ✅     |
+| 3.3 Guest checkout           | 1. Checkout as guest<br>2. Enter email<br>3. Complete purchase<br>4. Check order tracking             | - Guest checkout works<br>- Order processes<br>- Tracking available<br>- Account creation offered                   | ✅     |
+| 3.4 Save for Later           | 1. Move items to wishlist<br>2. Check price notifications<br>3. Move back to cart                     | - Items save to wishlist<br>- Notifications work<br>- Cart/wishlist movement works                                  | ⏳     |
 
 ## Epic 4: Order management
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 4.1 Order tracking | 1. View order status<br>2. Check shipping updates<br>3. Test email notifications | - Status updates show<br>- Shipping info accurate<br>- Notifications received |  ⏳|
-| 4.2 Order history | 1. View past orders<br>2. Download invoice<br>3. Test reorder function | - History displays correctly<br>- Invoices download<br>- Reorder works | 🟡 |
-| 4.3 Delivery preferences | 1. Set delivery preferences<br>2. Add special instructions<br>3. Update notification settings | - Preferences save<br>- Instructions recorded<br>- Notifications work | ⏳ |
+| User story               | Testing steps                                                                                 | Expected result                                                               | Status |
+| ------------------------ | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------ |
+| 4.1 Order tracking       | 1. View order status<br>2. Check shipping updates<br>3. Test email notifications              | - Status updates show<br>- Shipping info accurate<br>- Notifications received | ⏳     |
+| 4.2 Order history        | 1. View past orders<br>2. Download invoice<br>3. Test reorder function                        | - History displays correctly<br>- Invoices download<br>- Reorder works        | 🟡     |
+| 4.3 Delivery preferences | 1. Set delivery preferences<br>2. Add special instructions<br>3. Update notification settings | - Preferences save<br>- Instructions recorded<br>- Notifications work         | ⏳     |
 
 ## Epic 5: Admin functionality
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 5.1 Product management | 1. Add new product<br>2. Edit existing product<br>3. Manage inventory | - Products add/edit<br>- Inventory updates<br>- Categories manage | ✅ |
-| 5.2 Order management | 1. View orders<br>2. Update status<br>3. Search orders | - Orders viewable<br>- Status updates<br>- Search works | ⏳ |
-| 5.3 User management | 1. Search users<br>2. Edit user roles<br>3. Manage accounts | - User search works<br>- Roles update<br>- Account management works | ✅ |
-| 5.4 Sales analytics | 1. View dashboard<br>2. Generate reports<br>3. Export data | - Dashboard displays<br>- Reports generate<br>- Exports work | ⏳|
-| 5.5 Customer support | 1. View customer details<br>2. Modify orders<br>3. Track issues | - Customer info accessible<br>- Order modifications work<br>- Issue tracking functions | ⏳ |
+| User story             | Testing steps                                                         | Expected result                                                                        | Status |
+| ---------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------ |
+| 5.1 Product management | 1. Add new product<br>2. Edit existing product<br>3. Manage inventory | - Products add/edit<br>- Inventory updates<br>- Categories manage                      | ✅     |
+| 5.2 Order management   | 1. View orders<br>2. Update status<br>3. Search orders                | - Orders viewable<br>- Status updates<br>- Search works                                | ⏳     |
+| 5.3 User management    | 1. Search users<br>2. Edit user roles<br>3. Manage accounts           | - User search works<br>- Roles update<br>- Account management works                    | ✅     |
+| 5.4 Sales analytics    | 1. View dashboard<br>2. Generate reports<br>3. Export data            | - Dashboard displays<br>- Reports generate<br>- Exports work                           | ⏳     |
+| 5.5 Customer support   | 1. View customer details<br>2. Modify orders<br>3. Track issues       | - Customer info accessible<br>- Order modifications work<br>- Issue tracking functions | ⏳     |
 
 ## Epic 6: Future features
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 6.1 Prescription management | 1. Upload prescription<br>2. Verify process<br>3. Check reminders | - Upload works<br>- Verification process<br>- Reminders send | ⏳ |
-| 6.2 Live chat support | 1. Start chat<br>2. Connect with staff<br>3. Rate session | - Chat connects<br>- Staff available<br>- Rating works | ⏳ |
-| 6.3 Subscription service | 1. Set up subscription<br>2. Test billing<br>3. Modify schedule | - Subscription creates<br>- Billing works<br>- Modifications save | ⏳ |
-| 6.4 Mobile app | 1. Install app<br>2. Test features<br>3. Check notifications | - App functions<br>- Features work<br>- Notifications receive | ⏳ |
-| 6.5 AI recommendations | 1. Create health profile<br>2. Check recommendations<br>3. Test personalization | - Profile creates<br>- Recommendations show<br>- Personalization works | ⏳ |
+| User story                  | Testing steps                                                                   | Expected result                                                        | Status |
+| --------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------ |
+| 6.1 Prescription management | 1. Upload prescription<br>2. Verify process<br>3. Check reminders               | - Upload works<br>- Verification process<br>- Reminders send           | ⏳     |
+| 6.2 Live chat support       | 1. Start chat<br>2. Connect with staff<br>3. Rate session                       | - Chat connects<br>- Staff available<br>- Rating works                 | ⏳     |
+| 6.3 Subscription service    | 1. Set up subscription<br>2. Test billing<br>3. Modify schedule                 | - Subscription creates<br>- Billing works<br>- Modifications save      | ⏳     |
+| 6.4 Mobile app              | 1. Install app<br>2. Test features<br>3. Check notifications                    | - App functions<br>- Features work<br>- Notifications receive          | ⏳     |
+| 6.5 AI recommendations      | 1. Create health profile<br>2. Check recommendations<br>3. Test personalization | - Profile creates<br>- Recommendations show<br>- Personalization works | ⏳     |
 
 ## Epic 7: User notifications
 
-| User story | Testing steps | Expected result | Status |
-|------------|--------------|-----------------|--------|
-| 7.1 Authentication notifications | 1. Complete registration<br>2. Login/logout<br>3. Reset password | - Success messages show<br>- Login confirms<br>- Reset notifications work | ✅ |
-| 7.2 Shopping cart notifications | 1. Add to cart<br>2. Update quantity<br>3. Remove item | - Add confirms<br>- Updates notify<br>- Removal confirms | ✅ |
-| 7.3 Checkout notifications | 1. Place order<br>2. Process payment<br>3. Complete checkout | - Order confirms<br>- Payment notifies<br>- Completion confirms | ✅ |
-| 7.4 Product management notifications | 1. Add product<br>2. Update stock<br>3. Delete product | - Addition confirms<br>- Stock alerts show<br>- Deletion confirms | ✅ |
-| 7.5 Error Notifications | 1. Test form validation<br>2. Trigger payment error<br>| - Validation shows<br>- Errors display| ✅ |
+| User story                           | Testing steps                                                    | Expected result                                                           | Status |
+| ------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------- | ------ |
+| 7.1 Authentication notifications     | 1. Complete registration<br>2. Login/logout<br>3. Reset password | - Success messages show<br>- Login confirms<br>- Reset notifications work | ✅     |
+| 7.2 Shopping cart notifications      | 1. Add to cart<br>2. Update quantity<br>3. Remove item           | - Add confirms<br>- Updates notify<br>- Removal confirms                  | ✅     |
+| 7.3 Checkout notifications           | 1. Place order<br>2. Process payment<br>3. Complete checkout     | - Order confirms<br>- Payment notifies<br>- Completion confirms           | ✅     |
+| 7.4 Product management notifications | 1. Add product<br>2. Update stock<br>3. Delete product           | - Addition confirms<br>- Stock alerts show<br>- Deletion confirms         | ✅     |
+| 7.5 Error Notifications              | 1. Test form validation<br>2. Trigger payment error<br>          | - Validation shows<br>- Errors display                                    | ✅     |
 
 ## Legend
+
 - ✅ = Passed: Feature is fully implemented and all tests pass
 - ❌ = Failed: Feature is implemented but tests are failing
 - 🟡 = Partially implemented: Feature is partially complete or under development
@@ -827,82 +976,93 @@ This outlines the testing procedures and results for each user story in the Medi
 ### Manual testing
 
 #### Registration
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| User Registration | 1. Click "Register"<br>2. Fill in form with valid data<br>3. Submit form | User account created and verification email sent | ✅ |
-| Email Verification | 1. Click verification link in email<br>2. Confirm email | Email verified and user can log in | ✅ |
-| Invalid Registration | Try to register with:<br>1. Existing email<br>2. Mismatched passwords<br>3. Invalid email format | Appropriate error messages shown | ✅ |
+
+| Test case            | Steps                                                                                            | Expected result                                  | Status |
+| -------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------ | ------ |
+| User Registration    | 1. Click "Register"<br>2. Fill in form with valid data<br>3. Submit form                         | User account created and verification email sent | ✅     |
+| Email Verification   | 1. Click verification link in email<br>2. Confirm email                                          | Email verified and user can log in               | ✅     |
+| Invalid Registration | Try to register with:<br>1. Existing email<br>2. Mismatched passwords<br>3. Invalid email format | Appropriate error messages shown                 | ✅     |
 
 #### Login/Logout
-| Test Case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| User Login | 1. Enter valid credentials<br>2. Click login | Successfully logged in and redirected to home | ✅ |
-| Invalid Login | Try to login with:<br>1. Wrong password<br>2. Unregistered email | Error message shown | ✅ |
-| Logout | Click logout button | User logged out and redirected to home | ✅ |
+
+| Test Case     | Steps                                                            | Expected result                               | Status |
+| ------------- | ---------------------------------------------------------------- | --------------------------------------------- | ------ |
+| User Login    | 1. Enter valid credentials<br>2. Click login                     | Successfully logged in and redirected to home | ✅     |
+| Invalid Login | Try to login with:<br>1. Wrong password<br>2. Unregistered email | Error message shown                           | ✅     |
+| Logout        | Click logout button                                              | User logged out and redirected to home        | ✅     |
 
 #### Product browsing
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| View products | Visit products page | All products displayed with images and prices | ✅ |
-| Product categories | Click different categories | Products filtered by category | ✅ |
-| Product search | Use search bar | Relevant products shown based on search terms | ✅ |
-| Product sorting | Use sort dropdown | Products sorted by selected criterion | ✅ |
+
+| Test case          | Steps                      | Expected result                               | Status |
+| ------------------ | -------------------------- | --------------------------------------------- | ------ |
+| View products      | Visit products page        | All products displayed with images and prices | ✅     |
+| Product categories | Click different categories | Products filtered by category                 | ✅     |
+| Product search     | Use search bar             | Relevant products shown based on search terms | ✅     |
+| Product sorting    | Use sort dropdown          | Products sorted by selected criterion         | ✅     |
 
 #### Product details
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| View details | Click on product | Full product details shown | ✅ |
-| Image gallery | Click product images | Image gallery opens and functions | ✅ |
-| Stock status | Check stock indicator | Accurate stock level shown | ✅ |
+
+| Test case     | Steps                 | Expected result                   | Status |
+| ------------- | --------------------- | --------------------------------- | ------ |
+| View details  | Click on product      | Full product details shown        | ✅     |
+| Image gallery | Click product images  | Image gallery opens and functions | ✅     |
+| Stock status  | Check stock indicator | Accurate stock level shown        | ✅     |
 
 #### Cart operations
-| Test case | Steps | Expected result | Status |    
-|-----------|-------|-----------------|--------|
-| Add to cart | Click "Add to Cart" button | Product added and cart updated | ✅ |
-| Update quantity | Modify quantity in cart | Quantity and total price updated | ✅ |
-| Remove item | Click remove button | Item removed from cart | ✅ |
-| Cart total | Add multiple items | Cart total correctly calculated | ✅ |
+
+| Test case       | Steps                      | Expected result                  | Status |
+| --------------- | -------------------------- | -------------------------------- | ------ |
+| Add to cart     | Click "Add to Cart" button | Product added and cart updated   | ✅     |
+| Update quantity | Modify quantity in cart    | Quantity and total price updated | ✅     |
+| Remove item     | Click remove button        | Item removed from cart           | ✅     |
+| Cart total      | Add multiple items         | Cart total correctly calculated  | ✅     |
 
 #### Payment
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| Valid payment | Complete checkout with valid card | Order processed successfully | ✅ |
-| Invalid payment | Try invalid card details | Appropriate error message shown | ✅ |
-| Order confirmation | Complete purchase | Confirmation notification and order visible in profile | ✅ |
+
+| Test case          | Steps                             | Expected result                                        | Status |
+| ------------------ | --------------------------------- | ------------------------------------------------------ | ------ |
+| Valid payment      | Complete checkout with valid card | Order processed successfully                           | ✅     |
+| Invalid payment    | Try invalid card details          | Appropriate error message shown                        | ✅     |
+| Order confirmation | Complete purchase                 | Confirmation notification and order visible in profile | ✅     |
 
 #### Profile management
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| Update profile | Edit profile information | Profile successfully updated | ✅ |
-| Order history | View order history | Past orders displayed correctly | ✅ |
-| Delivery info | Save delivery information | Information saved for future use | ✅ |
+
+| Test case      | Steps                     | Expected result                  | Status |
+| -------------- | ------------------------- | -------------------------------- | ------ |
+| Update profile | Edit profile information  | Profile successfully updated     | ✅     |
+| Order history  | View order history        | Past orders displayed correctly  | ✅     |
+| Delivery info  | Save delivery information | Information saved for future use | ✅     |
 
 #### Subscription
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| Subscribe | Enter email and subscribe | Confirmation email sent | ✅ |
-| Unsubscribe | Click unsubscribe link | Successfully unsubscribed | ✅ |
-| Invalid email | Try invalid email format | Error message shown | ✅ |
+
+| Test case     | Steps                     | Expected result           | Status |
+| ------------- | ------------------------- | ------------------------- | ------ |
+| Subscribe     | Enter email and subscribe | Confirmation email sent   | ✅     |
+| Unsubscribe   | Click unsubscribe link    | Successfully unsubscribed | ✅     |
+| Invalid email | Try invalid email format  | Error message shown       | ✅     |
 
 #### Custom error pages
-| Test case | Steps | Expected result | Status |
-|-----------|-------|-----------------|--------|
-| 404 Page | Visit non-existent URL | Custom 404 page shown | ✅ |
-| 500 Page | Server error occurs | Custom 500 page shown | ✅ |
-| 502 Page | Bad gateway error | Custom 502 page shown | ✅ |
+
+| Test case | Steps                  | Expected result       | Status |
+| --------- | ---------------------- | --------------------- | ------ |
+| 404 Page  | Visit non-existent URL | Custom 404 page shown | ✅     |
+| 500 Page  | Server error occurs    | Custom 500 page shown | ✅     |
+| 502 Page  | Bad gateway error      | Custom 502 page shown | ✅     |
 
 [Back to table of contents](#table-of-contents)
 
 ### Responsiveness testing
 
 #### Device testing
-| Device | Viewport size | Status |
-|--------|------------|--------|
-| iPhone 12 | 390px × 844px| ✅ |
-| iPad Pro 11| 834px × 1194px | ✅ |
-| Desktop | 1920x1080 | ✅ |
+
+| Device      | Viewport size  | Status |
+| ----------- | -------------- | ------ |
+| iPhone 12   | 390px × 844px  | ✅     |
+| iPad Pro 11 | 834px × 1194px | ✅     |
+| Desktop     | 1920x1080      | ✅     |
 
 #### Elements tested for responsiveness
+
 - Navigation menu
 - Product cards
 - Shopping cart
@@ -916,12 +1076,13 @@ This outlines the testing procedures and results for each user story in the Medi
 ### Browser compatibility
 
 #### Browser testing
+
 | Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | Latest | ✅ |
-| Firefox | Latest | ✅ |
-| Safari | Latest | ✅ |
-| Edge | Latest | ✅ |
+| ------- | ------- | ------ |
+| Chrome  | Latest  | ✅     |
+| Firefox | Latest  | ✅     |
+| Safari  | Latest  | ✅     |
+| Edge    | Latest  | ✅     |
 
 [Back to table of contents](#table-of-contents)
 
@@ -973,14 +1134,14 @@ This outlines the testing procedures and results for each user story in the Medi
 
 ### Bugs
 
-| Bug                                                                                |Fix                                         |
-| -----------------------------------------------------------------------------------|--------------------------------------------|
-| Currency was US Dollars not € ![bug image 1](docs/bug1-dollarsign.png) | ![bug image 1 fix](docs/bug1-fix.png)        |
-| Style quantity buttons ![bug image 2](docs/bug2-style-quantity-buttons.png)       | ![bug image 2 fix](docs/bug2-fix.png)        |
-| Text not centered ![bug image 3](docs/bug3-text-not-centered.png) | ![bug image 3 fix](docs/bug3-fix.png)        |
-| Product name not showing ![bug image 4](docs/bug4-product-name-not-showing.png) | ![bug image 4 fix](docs/bug4-fix1.png) ![bug image 4 fix](docs/bug4-fix2.png) ![bug image 4 fix](docs/bug4-fix3-mobile-nav-creation.png)       |
-| Mobile homepage height ![bug image 5](docs/bug5-mobile-homepage-height.png) | ![bug image 5 fix](docs/bug5-fix.png)        |
-| On mobile: Subscribe message overflow ![bug image 6](docs/bug6-mobile-subscribe-overflow.png)       | ![bug image 6 fix](docs/bug6-fix.png)        |
+| Bug                                                                                           | Fix                                                                                                                                      |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Currency was US Dollars not € ![bug image 1](docs/bug1-dollarsign.png)                        | ![bug image 1 fix](docs/bug1-fix.png)                                                                                                    |
+| Style quantity buttons ![bug image 2](docs/bug2-style-quantity-buttons.png)                   | ![bug image 2 fix](docs/bug2-fix.png)                                                                                                    |
+| Text not centered ![bug image 3](docs/bug3-text-not-centered.png)                             | ![bug image 3 fix](docs/bug3-fix.png)                                                                                                    |
+| Product name not showing ![bug image 4](docs/bug4-product-name-not-showing.png)               | ![bug image 4 fix](docs/bug4-fix1.png) ![bug image 4 fix](docs/bug4-fix2.png) ![bug image 4 fix](docs/bug4-fix3-mobile-nav-creation.png) |
+| Mobile homepage height ![bug image 5](docs/bug5-mobile-homepage-height.png)                   | ![bug image 5 fix](docs/bug5-fix.png)                                                                                                    |
+| On mobile: Subscribe message overflow ![bug image 6](docs/bug6-mobile-subscribe-overflow.png) | ![bug image 6 fix](docs/bug6-fix.png)                                                                                                    |
 
 [Back to table of contents](#table-of-contents)
 
@@ -1033,11 +1194,13 @@ I deployed this Django application on Heroku, taking advantage of its integratio
 If you'd like to fork this repository and run it locally, follow these steps:
 
 1. **Fork the repository**:
+
    - Navigate to the GitHub repository: [MediCart](https://github.com/alexstrauch/medicart)
    - In the top-right corner of the page, click the "Fork" button.
    - This will create a copy of the repository in your GitHub account.
 
 2. **Clone your fork**:
+
    - On your forked repository page, click the "Code" button and copy the URL.
    - Open your terminal and run:
      ```
@@ -1046,6 +1209,7 @@ If you'd like to fork this repository and run it locally, follow these steps:
    - This creates a local copy of the repository on your machine.
 
 3. **Set up virtual environment**:
+
    - Navigate into the project directory:
      ```
      cd [project directory name]
@@ -1059,12 +1223,14 @@ If you'd like to fork this repository and run it locally, follow these steps:
      - On macOS and Linux: `source venv/bin/activate`
 
 4. **Install dependencies**:
+
    - With your virtual environment activated, install the required packages:
      ```
      pip install -r requirements.txt
      ```
 
 5. **Set up environment variables**:
+
    - Create a `env.py` file in the root directory of the project.
    - Add the following variables (replace with your actual values):
      ```
@@ -1085,12 +1251,13 @@ If you'd like to fork this repository and run it locally, follow these steps:
      DEBUG=True
      ```
 
-    
-    Important notes: 
-    - Make sure to set `DEBUG=True` for local development and testing in `env.py`. This should be set to `DEBUG=False` in production / when the app is live.
-    - Remember to never commit the `env.py` file or any sensitive information to version control. If you plan to deploy your fork, make sure to set up the necessary environment variables in your deployment environment.
+   Important notes:
+
+   - Make sure to set `DEBUG=True` for local development and testing in `env.py`. This should be set to `DEBUG=False` in production / when the app is live.
+   - Remember to never commit the `env.py` file or any sensitive information to version control. If you plan to deploy your fork, make sure to set up the necessary environment variables in your deployment environment.
 
 6. **Apply Migrations**:
+
    - Run the following commands to apply database migrations:
      ```
      python manage.py makemigrations
@@ -1104,7 +1271,6 @@ If you'd like to fork this repository and run it locally, follow these steps:
      ```
    - Open a web browser and navigate to `http://127.0.0.1:8000/` to view the application.
 
-
 [Back to table of contents](#table-of-contents)
 
 ## Credits
@@ -1112,29 +1278,33 @@ If you'd like to fork this repository and run it locally, follow these steps:
 ### Code resources
 
 #### Django & Python
+
 - [Django Documentation](https://docs.djangoproject.com/en/4.2/) - Official Django documentation
 - [Django Allauth](https://django-allauth.readthedocs.io/) - Authentication system
 - [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/) - Form rendering
 - [Django Countries](https://pypi.org/project/django-countries/) - Country field implementation
 
 #### Frontend resources
+
 - [Bootstrap 5](https://getbootstrap.com/) - Frontend framework
 - [Font Awesome](https://fontawesome.com/) - Icons used throughout the site
 - [Google Fonts](https://fonts.google.com/) - Typography
 
 #### Payment processing
+
 - [Stripe Documentation](https://stripe.com/docs) - Payment integration guides
 
 #### Image hosting
+
 - [Cloudinary](https://cloudinary.com/) - Image management
 
 ### Media
 
 #### Images
+
 - Product images generated with [Leonardo AI](https://leonardo.ai/)
 
 ### Educational resources
-
 
 - [Mozilla Developer Network (MDN)](https://developer.mozilla.org/) - Web development resources
 - [Real Python](https://realpython.com/) - Python tutorials
