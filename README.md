@@ -913,18 +913,18 @@ This outlines the testing procedures and results for each user story in the Medi
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
 | 2.1 Product browsing   | 1. Browse product categories<br>2. Apply filters<br>3. Test sorting options<br>4. Use search function               | - Products display in grid<br>- Filters work correctly<br>- Sorting updates display<br>- Search returns relevant results | ✅     |
 | 2.2 Product details    | 1. Click product card<br>2. View images and description<br>3. Check price and availability<br>4. Test "Add to Cart" | - Details page loads correctly<br>- Images display properly<br>- Product info is clear<br>- Add to cart works            | ✅     |
-| 2.3 Product reviews    | 1. Submit product review<br>2. Rate product<br>3. View other reviews<br>4. Check verified purchase badge            | - Review submission works<br>- Rating system functions<br>- Reviews display correctly<br>- Badges show properly          | ⏳     |
+| 2.3 Product reviews    | 1. Submit product review<br>2. Rate product<br>3. View other reviews                                                | - Review submission works<br>- Star rating system functions<br>- Average ratings display on product cards                | ✅     |
 | 2.4 Product comparison | 1. Select products to compare<br>2. View comparison table<br>3. Test sharing function                               | - Comparison table displays<br>- Features compared correctly<br>- Sharing works                                          | ⏳     |
 | 2.5 Real-time search   | 1. Type in search box<br>2. Check dropdown results<br>3. Test on mobile devices                                     | - Results appear while typing<br>- Dropdown is responsive<br>- Works on all devices                                      | ⏳     |
 
 ## Epic 3: Shopping cart & checkout
 
-| User story                   | Testing steps                                                                                         | Expected result                                                                                                     | Status |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------ |
-| 3.1 Shopping cart management | 1. Add items to cart<br>2. Update quantities<br>3. Remove items<br>4. Check cart persistence          | - Items add/remove correctly<br>- Quantities update<br>- Totals calculate properly<br>- Cart saves between sessions | ✅     |
-| 3.2 Checkout process         | 1. Proceed to checkout<br>2. Select shipping address<br>3. Enter payment info<br>4. Complete purchase | - Checkout flow works<br>- Payment processes<br>- Order confirms<br>- Email received                                | ✅     |
-| 3.3 Guest checkout           | 1. Checkout as guest<br>2. Enter email<br>3. Complete purchase<br>4. Check order tracking             | - Guest checkout works<br>- Order processes<br>- Tracking available<br>- Account creation offered                   | ✅     |
-| 3.4 Save for Later           | 1. Move items to wishlist<br>2. Check price notifications<br>3. Move back to cart                     | - Items save to wishlist<br>- Notifications work<br>- Cart/wishlist movement works                                  | ⏳     |
+| User story                   | Testing steps                                                                                                           | Expected result                                                                                                                 | Status |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 3.1 Shopping cart management | 1. Add items to cart<br>2. Update quantities<br>3. Remove items<br>4. Check cart persistence                            | - Items add/remove correctly<br>- Quantities update<br>- Totals calculate properly<br>- Cart saves between sessions             | ✅     |
+| 3.2 Checkout process         | 1. Proceed to checkout<br>2. Select shipping address<br>3. Enter payment info<br>4. Complete purchase                   | - Checkout flow works<br>- Payment processes<br>- Order confirms<br>- Email received                                            | ✅     |
+| 3.3 Guest checkout           | 1. Checkout as guest<br>2. Enter email<br>3. Complete purchase<br>4. Check order tracking                               | - Guest checkout works<br>- Order processes<br>- Tracking available<br>- Account creation offered                               | ✅     |
+| 3.4 Wishlist                 | 1. Click heart icon on product<br>2. View wishlist page<br>3. Remove from wishlist<br>4. Check persistence after logout | - Items add/remove from wishlist<br>- Heart icon updates (red/grey)<br>- Wishlist persists for users<br>- Visual feedback shows | ✅     |
 
 ## Epic 4: Order management
 
@@ -936,13 +936,14 @@ This outlines the testing procedures and results for each user story in the Medi
 
 ## Epic 5: Admin functionality
 
-| User story             | Testing steps                                                         | Expected result                                                                        | Status |
-| ---------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------ |
-| 5.1 Product management | 1. Add new product<br>2. Edit existing product<br>3. Manage inventory | - Products add/edit<br>- Inventory updates<br>- Categories manage                      | ✅     |
-| 5.2 Order management   | 1. View orders<br>2. Update status<br>3. Search orders                | - Orders viewable<br>- Status updates<br>- Search works                                | ⏳     |
-| 5.3 User management    | 1. Search users<br>2. Edit user roles<br>3. Manage accounts           | - User search works<br>- Roles update<br>- Account management works                    | ✅     |
-| 5.4 Sales analytics    | 1. View dashboard<br>2. Generate reports<br>3. Export data            | - Dashboard displays<br>- Reports generate<br>- Exports work                           | ⏳     |
-| 5.5 Customer support   | 1. View customer details<br>2. Modify orders<br>3. Track issues       | - Customer info accessible<br>- Order modifications work<br>- Issue tracking functions | ⏳     |
+| User story             | Testing steps                                                                                                            | Expected result                                                                                                | Status |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- | ------ |
+| 5.1 Product management | 1. Add new product<br>2. Edit existing product<br>3. Manage inventory                                                    | - Products add/edit<br>- Inventory updates<br>- Categories manage                                              | ✅     |
+| 5.2 Order management   | 1. View orders<br>2. Update status<br>3. Search orders                                                                   | - Orders viewable<br>- Status updates<br>- Search works                                                        | ⏳     |
+| 5.3 User management    | 1. Search users<br>2. Edit user roles<br>3. Manage accounts                                                              | - User search works<br>- Roles update<br>- Account management works                                            | ✅     |
+| 5.4 Sales analytics    | 1. View dashboard<br>2. Generate reports<br>3. Export data                                                               | - Dashboard displays<br>- Reports generate<br>- Exports work                                                   | ⏳     |
+| 5.5 Customer support   | 1. View customer details<br>2. Modify orders<br>3. Track issues                                                          | - Customer info accessible<br>- Order modifications work<br>- Issue tracking functions                         | ⏳     |
+| 5.6 Customer request   | 1. Submit contact form<br>2. Check email confirmation<br>3. View in admin panel<br>4. Test auto-fill for logged-in users | - Form submits successfully<br>- Confirmation emails send<br>- Requests show in admin<br>- User info pre-fills | ✅     |
 
 ## Epic 6: Future features
 
