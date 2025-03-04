@@ -38,6 +38,9 @@
 - [User account](#user-account)
 - [Security features](#security-features)
 - [Admin features](#admin-features)
+- [Wishlist](#wishlist)
+- [Reviews](#reviews)
+- [Contact](#contact)
 - [Additional features](#additional-features)
 
 5. [Future features](#future-features)
