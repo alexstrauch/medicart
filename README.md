@@ -1031,13 +1031,39 @@ This outlines the testing procedures and results for each user story in the Medi
 | Product search     | Use search bar             | Relevant products shown based on search terms | ✅     |
 | Product sorting    | Use sort dropdown          | Products sorted by selected criterion         | ✅     |
 
+#### Reviews
+
+| Test case         | Steps                                                             | Expected result                          | Status |
+| ----------------- | ----------------------------------------------------------------- | ---------------------------------------- | ------ |
+| Add Review        | 1. Navigate to product<br>2. Click add review<br>3. Submit review | Review posted and visible after approval | ✅     |
+| Star Rating       | 1. Select star rating<br>2. Submit review                         | Correct rating displayed with review     | ✅     |
+| Review Moderation | 1. Submit review<br>2. Check admin panel                          | Review appears in admin for moderation   | ✅     |
+| Review Display    | 1. View product<br>2. Check reviews section                       | All approved reviews shown with dates    | ✅     |
+
+#### Wishlist
+
+| Test case            | Steps                                                     | Expected result                            | Status |
+| -------------------- | --------------------------------------------------------- | ------------------------------------------ | ------ |
+| Add to Wishlist      | 1. Click heart icon<br>2. Check wishlist page             | Product appears in wishlist                | ✅     |
+| Remove from Wishlist | 1. View wishlist<br>2. Click heart icon to remove product | Product removed from wishlist              | ✅     |
+| Wishlist Persistence | 1. Add items<br>2. Logout<br>3. Login again               | Wishlist items remain through sessions     | ✅     |
+| Heart Icon Toggle    | 1. Add to wishlist<br>2. Check heart icon                 | Heart icon shows filled/unfilled correctly | ✅     |
+
+#### Contact
+
+| Test case      | Steps                                      | Expected result                       | Status |
+| -------------- | ------------------------------------------ | ------------------------------------- | ------ |
+| Submit Inquiry | 1. Fill contact form<br>2. Submit inquiry  | Form submits, confirmation shown      | ✅     |
+| Guest Inquiry  | 1. Submit as guest<br>2. Check email field | Email required for guest submission   | ✅     |
+| User Inquiry   | 1. Login<br>2. Open contact form           | User details auto-filled              | ✅     |
+| Admin Response | 1. Submit inquiry<br>2. Check admin panel  | Inquiry appears in admin for response | ✅     |
+
 #### Product details
 
-| Test case     | Steps                 | Expected result                   | Status |
-| ------------- | --------------------- | --------------------------------- | ------ |
-| View details  | Click on product      | Full product details shown        | ✅     |
-| Image gallery | Click product images  | Image gallery opens and functions | ✅     |
-| Stock status  | Check stock indicator | Accurate stock level shown        | ✅     |
+| Test case     | Steps                | Expected result                   | Status |
+| ------------- | -------------------- | --------------------------------- | ------ | --- |
+| View details  | Click on product     | Full product details shown        | ✅     |
+| Image gallery | Click product images | Image gallery opens and functions | ✅     |     |
 
 #### Cart operations
 
