@@ -1061,9 +1061,9 @@ This outlines the testing procedures and results for each user story in the Medi
 #### Product details
 
 | Test case     | Steps                | Expected result                   | Status |
-| ------------- | -------------------- | --------------------------------- | ------ | --- |
+| ------------- | -------------------- | --------------------------------- | ------ |
 | View details  | Click on product     | Full product details shown        | ✅     |
-| Image gallery | Click product images | Image gallery opens and functions | ✅     |     |
+| Image gallery | Click product images | Image gallery opens and functions | ✅     |
 
 #### Cart operations
 
