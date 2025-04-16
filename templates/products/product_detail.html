@@ -2,9 +2,17 @@
 {% extends "base.html" %}
 {% load static %}
 
+{# Override meta block to include product-specific title #}
+{% block meta %}
+    {{ block.super }}
+    {% with title_text=product.name|add:" | MediCart" %}
+        <title>{{ title_text }}</title>
+    {% endwith %}
+{% endblock %}
+
 {# Product-specific meta tags for SEO #}
-{% block extra_meta %}
-    <meta name="title" content="{{ product.name }} | MediCart">
+{% block meta_seo %}
+    {{ block.super }}
     <meta name="description" content="{{ product.description|truncatechars:160 }}">
     <meta name="keywords" content="{{ product.name }}, {{ product.category.name }}, medical supplies, healthcare products, {{ product.category.friendly_name }}">
 {% endblock %}

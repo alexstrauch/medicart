@@ -9,8 +9,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        {# SEO meta tags #}
-        <meta name="title" content="MediCart - Your trusted healthcare e-commerce platform">
+        <title>MediCart {% block extra_title %}{% endblock %}</title>
+    {% endblock %}
+
+    {# SEO meta tags - can be overridden by child templates #}
+    {% block meta_seo %}
         <meta name="description" content="Shop quality medical supplies, equipment, and healthcare products. Trusted by healthcare professionals. Fast delivery and secure checkout.">
         <meta name="keywords" content="medical supplies, healthcare products, medical equipment, pharmacy online, healthcare e-commerce, medical devices, health products, medical store">
         <meta name="author" content="MediCart">
@@ -87,8 +90,6 @@
 
     {% block extra_js %}
     {% endblock %}
-
-    <title>MediCart {% block extra_title %}{% endblock %}</title>
 </head>
 <body>
     <header role="banner">

@@ -2,6 +2,21 @@
 {% extends "base.html" %}
 {% load static %}
 
+{# Override meta block to include products listing title #}
+{% block meta %}
+    {{ block.super }}
+    {% with title_text="Medical Supplies & Equipment | MediCart" %}
+        <title>{{ title_text }}</title>
+    {% endwith %}
+{% endblock %}
+
+{# Products listing meta tags for SEO #}
+{% block meta_seo %}
+    {{ block.super }}
+    <meta name="description" content="Browse our complete catalog of medical supplies, equipment, and healthcare products. Professional-grade items for healthcare providers and home care.">
+    <meta name="keywords" content="medical supplies catalog, healthcare products list, medical equipment store, buy medical supplies, healthcare essentials">
+{% endblock %}
+
 {# Empty header container for spacing #}
 {% block page_header %}
     <div class="container header-container">
