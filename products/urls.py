@@ -1,12 +1,10 @@
 """
 URL configuration for the products app.
 
-Defines URL patterns for product listing, detail views, and management operations.
+Defines URL patterns for product listing and detail views.
 URL structure follows RESTful conventions where possible:
-- List/Create: /products/
+- List: /products/
 - Detail: /products/<id>/
-- Edit: /products/edit/<id>/
-- Delete: /products/delete/<id>/
 """
 
 from django.urls import path
@@ -18,9 +16,4 @@ urlpatterns = [
     
     # Product detail page - shows full information for a specific product
     path('<int:product_id>/', views.product_detail, name='product_detail'),
-    
-    # Product management URLs (staff/admin only)
-    path('add/', views.add_product, name='add_product'),              # Add new product
-    path('edit/<int:product_id>/', views.edit_product, name='edit_product'),    # Edit existing product
-    path('delete/<int:product_id>/', views.delete_product, name='delete_product'),  # Delete product
 ]
