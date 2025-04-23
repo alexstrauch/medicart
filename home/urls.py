@@ -8,6 +8,8 @@ from . import views
 
 
 urlpatterns = [
-    # Homepage URL pattern
-    path('', views.index, name='home'),
+    # Homepage URL patterns
+    path('', views.index, name='home'),  # Root URL
+    path('home/', views.index, name='home_alt'),  # /home/ URL
+    path('index.html', views.index, name='home_html'),  # /index.html URL
 ]
